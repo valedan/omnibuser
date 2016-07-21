@@ -1,0 +1,20 @@
+<h1>Omnibuser</h1>
+<%= form_tag do %>
+<%= text_field_tag(:q) %>
+<%= submit_tag("Get") %>
+<% end %>
+
+
+<% flash.each do |name, msg| -%>
+<%= content_tag :div, msg, class: name %>
+<% end -%>
+
+<% if @request && @request.errors.any? %>
+<div id="error_explanation">
+  <ul>
+    <% @request.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>

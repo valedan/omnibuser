@@ -1,0 +1,3 @@
+class FFNScraper < Scraper
+  
+end
