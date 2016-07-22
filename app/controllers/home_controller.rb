@@ -3,16 +3,16 @@ class HomeController < ApplicationController
   end
 
   def new
-    @request = Request.create(url: params[:q])
+    @url = params[:q]
+    @request = Request.create(url: @url)
     if @request.invalid?
       render :index and return
     end
-    request_type = @request.determine_type
+    request_type = determine_type
 
-    # ask Request if domain is valid, and which Scraper class to use
     if request_type
       @scraper = request_type.new
-      @scraper.url = params[:q]
+      @scraper.url = @url
       message = @scraper.scrape
     else
       flash.now[:error] = "That site is not currently supported."
@@ -23,8 +23,21 @@ class HomeController < ApplicationController
     render :index
   end
 
+
+
   private
   def request_params
     params.require(:q)
+  end
+
+  def determine_type
+    @valid_domains = {"fanfiction.net" => FFNScraper}
+    @valid_domains.each_key do |domain|
+      if @url.include?(domain)
+        return @valid_domains[domain]
+      else
+        return nil
+      end
+    end
   end
 end
