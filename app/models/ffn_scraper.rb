@@ -4,10 +4,6 @@ class FFNScraper < Scraper
     @url.match(/fanfiction\.net\/s\/\d+\//)
   end
 
-  def update_story
-    puts "UPDATE"
-  end
-
   def get_story_title
     @page.at_css("#profile_top .xcontrast_txt").text
   end
@@ -21,7 +17,7 @@ class FFNScraper < Scraper
 
     unless @page.css("#chap_select").empty?
       @page.at_css("#chap_select").css("option").map do |option|
-        "#{@base_url}#{option['value']}/"
+        "https://www.#{@base_url}#{option['value']}/"
       end
     else
       [@page.uri]
