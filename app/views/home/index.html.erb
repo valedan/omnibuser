@@ -4,7 +4,9 @@
 <%= submit_tag("Get") %>
 <% end %>
 
-
+<% if @filename %>
+<%= link_to "Download file", "/public/#{@filename}" %>
+<% end %>
 <% flash.each do |name, msg| -%>
 <%= content_tag :div, msg, class: name %>
 <% end -%>

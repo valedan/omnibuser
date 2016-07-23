@@ -13,13 +13,11 @@ class HomeController < ApplicationController
     if request_type
       @scraper = request_type.new
       @scraper.url = @url
-      message = @scraper.scrape
+      @filename = @scraper.scrape
     else
       flash.now[:error] = "That site is not currently supported."
       render :index and return
     end
-
-    flash.now[:notice] = message
     render :index
   end
 

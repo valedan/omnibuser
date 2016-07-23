@@ -13,7 +13,7 @@ class Scraper
     else
       get_story
     end
-    #@story.build
+    @story.build
   end
 
   def story_exists?
