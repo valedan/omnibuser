@@ -2,6 +2,11 @@ class HomeController < ApplicationController
   def index
   end
 
+  def download
+    @doc = Document.find(params[:id])
+    send_file(@doc.path)
+  end
+
   def new
     @url = params[:q]
     @request = Request.create(url: @url)
@@ -13,7 +18,7 @@ class HomeController < ApplicationController
     if request_type
       @scraper = request_type.new
       @scraper.url = @url
-      @filename = @scraper.scrape
+      @doc_id = @scraper.scrape
     else
       flash.now[:error] = "That site is not currently supported."
       render :index and return
