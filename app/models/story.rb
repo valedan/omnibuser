@@ -4,14 +4,9 @@ class Story < ApplicationRecord
   has_many :requests
 
   def build
-    @existing_doc = Document.find_by("story_id = ?", self.id)
-    if @existing_doc
-      @existing_doc.id
-    else
-      @doc = Document.create(story_id: self.id, filename: self.title,
-                             extension: 'html')
-      @doc.build
-      @doc.id
-    end
+    @doc = Document.create(story_id: self.id, filename: self.title,
+                           extension: 'html')
+    DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
+    @doc.id
   end
 end

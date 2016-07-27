@@ -1,11 +1,17 @@
 class Document < ApplicationRecord
   belongs_to :story
+  after_create :build_file
+  before_destroy :delete_file
 
   def path
     Rails.root.join('public', 'documents', "#{filename}.#{extension}")
   end
 
-  def build
+  def delete_file
+    File.delete(self.path)
+  end
+
+  def build_file
     @file = File.open(self.path, 'w+')
     add_file_header
     self.story.chapters.each do |chapter|
