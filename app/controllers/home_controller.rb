@@ -33,6 +33,27 @@ class HomeController < ApplicationController
     params.require(:q)
   end
 
+  ### Formats to support:
+  # mobi
+  # epub
+  # pdf
+
+  ### Domains to support:
+  # www.fictionpress.com
+  # www.fimfiction.net
+  # archiveofourown.org
+  # forums.sufficientvelocity.com
+  # forums.spacebattles.com
+  # forum.questionablequesting.com
+  # unsongbook.com
+  # worm/pact/twig
+  # alicorn
+  # alexanderwales.com
+  # qntm.org
+  # practicalguidetoevil.wordpress.com
+  # anarchyishyperbole.com
+  # tales of mu
+
   def determine_type
     @valid_domains = {"fanfiction.net" => FFNScraper}
     @valid_domains.each_key do |domain|
