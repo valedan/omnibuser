@@ -34,13 +34,15 @@ class HomeController < ApplicationController
   end
 
   def determine_type
-    @valid_domains = {"fanfiction.net" => FFNScraper}
+    @valid_domains = {"fanfiction.net" => FFNScraper,
+                      "fictionpress.com" => FictionPressScraper}
     @valid_domains.each_key do |domain|
+      puts @url
+      puts domain
       if @url.include?(domain)
         return @valid_domains[domain]
-      else
-        return nil
       end
     end
+    return nil
   end
 end
