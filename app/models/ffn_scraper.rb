@@ -5,11 +5,11 @@ class FFNScraper < Scraper
   end
 
   def get_story_title
-    @page.at_css("#profile_top .xcontrast_txt").text
+    @page.at_css("#profile_top .xcontrast_txt").text.strip
   end
 
   def get_author
-    @page.xpath("//a[starts-with(@href, '/u/')]").first.text
+    @page.xpath("//a[starts-with(@href, '/u/')]").first.text.strip
   end
 
   def get_chapter_urls
@@ -29,7 +29,7 @@ class FFNScraper < Scraper
     title = ""
     options.each do |option|
       if option['selected']
-        title = option.text
+        title = option.text.strip
         break
       end
     end

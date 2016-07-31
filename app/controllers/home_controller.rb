@@ -39,7 +39,6 @@ class HomeController < ApplicationController
   # pdf
 
   ### Domains to support:
-  # www.fictionpress.com
   # www.fimfiction.net
   # archiveofourown.org
   # forums.sufficientvelocity.com
@@ -56,7 +55,8 @@ class HomeController < ApplicationController
 
   def determine_type
     @valid_domains = {"fanfiction.net" => FFNScraper,
-                      "fictionpress.com" => FictionPressScraper}
+                      "fictionpress.com" => FictionPressScraper,
+                      "archiveofourown.org" => AO3Scraper}
     @valid_domains.each_key do |domain|
       puts @url
       puts domain

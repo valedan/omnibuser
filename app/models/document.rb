@@ -14,7 +14,7 @@ class Document < ApplicationRecord
   def build_file
     @file = File.open(self.path, 'w+')
     add_file_header
-    self.story.chapters.each do |chapter|
+    self.story.chapters.order(:number).each do |chapter|
       add_chapter(chapter)
     end
     add_file_footer
