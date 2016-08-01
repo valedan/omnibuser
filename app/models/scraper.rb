@@ -21,7 +21,6 @@ class Scraper
   end
 
   def update_story
-    puts "UPDATE"
     @story = @cached_story
     @page = get_metadata_page
     live_chapters = get_chapter_urls
@@ -39,12 +38,8 @@ class Scraper
 
   def get_chapters(chapter_urls, offset=0)
     chapter_urls.each_with_index do |chapter, index|
-      puts "IN CHAPTERS LOOP"
-      puts chapter
-      puts @page.uri
       sleep(4)
       @page = @agent.get(chapter) unless chapter == @page.uri
-      puts @page.title
       Chapter.create(title: get_chapter_title,
                      content: get_chapter_content,
                      number: index + 1 + offset,
@@ -53,7 +48,6 @@ class Scraper
   end
 
   def get_story
-    puts "NEW STORY"
     @page = get_metadata_page
     @story = Story.create(url: @base_url,
                           title: get_story_title,

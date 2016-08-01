@@ -39,24 +39,25 @@ class HomeController < ApplicationController
   # pdf
 
   ### Domains to support:
-  # www.fimfiction.net
-  # archiveofourown.org
-  # forums.sufficientvelocity.com
-  # forums.spacebattles.com
-  # forum.questionablequesting.com
-  # unsongbook.com
-  # worm/pact/twig
-  # alicorn
-  # alexanderwales.com
-  # qntm.org
-  # practicalguidetoevil.wordpress.com
-  # anarchyishyperbole.com
-  # tales of mu
+  # www.fimfiction.net - ebook exists
+  ########## forums.sufficientvelocity.com
+  ########## forums.spacebattles.com
+  ########## forum.questionablequesting.com
+  ########## unsongbook.com
+  ########## worm/pact/twig
+  # alicorn - ebook exists
+  ########## alexanderwales.com
+  # qntm.org - ebooks
+  ########## practicalguidetoevil.wordpress.com
+  # anarchyishyperbole.com - ebooks
+  # tales of mu - ebooks
 
   def determine_type
     @valid_domains = {"fanfiction.net" => FFNScraper,
                       "fictionpress.com" => FictionPressScraper,
-                      "archiveofourown.org" => AO3Scraper}
+                      "archiveofourown.org" => AO3Scraper,
+                      "forums.sufficientvelocity.com" => SVScraper
+                      }
     @valid_domains.each_key do |domain|
       puts @url
       puts domain
