@@ -27,11 +27,12 @@ class Scraper
     cached_chapters = @cached_story.chapters
 
     if cached_chapters.length == 0 || live_chapters.length == 1 || live_chapters.length < cached_chapters.length
-      @story.destroy
-      get_story
+      if @story.created_at < 5.minutes.ago
+        @story.destroy
+        get_story
+      end
     elsif cached_chapters.length < live_chapters.length
       live_chapters.shift(cached_chapters.length)
-      p live_chapters
       get_chapters(live_chapters, cached_chapters.length)
     end
   end

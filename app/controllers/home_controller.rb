@@ -56,11 +56,11 @@ class HomeController < ApplicationController
     @valid_domains = {"fanfiction.net" => FFNScraper,
                       "fictionpress.com" => FictionPressScraper,
                       "archiveofourown.org" => AO3Scraper,
-                      "forums.sufficientvelocity.com" => SVScraper
+                      "forums.sufficientvelocity.com" => SVScraper,
+                      "forums.spacebattles.com" => SBScraper,
+                      "forum.questionablequesting.com" => QQScraper
                       }
     @valid_domains.each_key do |domain|
-      puts @url
-      puts domain
       if @url.include?(domain)
         return @valid_domains[domain]
       end
