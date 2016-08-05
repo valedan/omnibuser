@@ -12,7 +12,7 @@ class AO3Scraper < Scraper
   end
 
   def get_metadata_page
-    @agent.get("https://www.#{@base_url}?view_adult=true&view_full_work=true")
+    get_page("https://www.#{@base_url}?view_adult=true&view_full_work=true")
   end
 
   def get_chapter_urls

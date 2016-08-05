@@ -1,6 +1,6 @@
 class QQScraper < SVScraper
   def get_base_url
-    @url.match(/forum.questionablequesting.com\/threads\/.+\.\d+/)
+    @url.match(/forum\.questionablequesting\.com\/threads\/.+\.\d+/)
   end
 
   def get_chapter_urls
@@ -11,8 +11,7 @@ class QQScraper < SVScraper
 
   def get_chapters(chapter_urls, offset=0)
     chapter_urls.each_with_index do |url, index|
-      sleep(4)
-      @page = @agent.get(url)
+      @page = get_page(url)
       chapter = @page.at_css("[@id='#{@page.uri.fragment}']")
       @story.update(author: get_author) if @story.author.blank?
       Chapter.create(title: get_chapter_title(chapter),

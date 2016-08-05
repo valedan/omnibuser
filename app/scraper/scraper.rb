@@ -1,13 +1,34 @@
+
 class Scraper
   include ActiveModel::Model
-  attr_accessor :url
-  def new
+  attr_accessor :url, :doc_id
+
+  def self.create(url)
+    @url = url
+    determine_type.new(url: @url)
+  end
+
+  def self.determine_type
+    @valid_domains = {"fanfiction.net" => FFNScraper,
+                      "fictionpress.com" => FFNScraper,
+                      "archiveofourown.org" => AO3Scraper,
+                      "forums.sufficientvelocity.com" => SVScraper,
+                      "forums.spacebattles.com" => SVScraper,
+                      "forum.questionablequesting.com" => QQScraper
+                      }
+    @valid_domains.each_key do |domain|
+      if @url.include?(domain)
+        return @valid_domains[domain]
+      end
+    end
+    raise ScraperError, "Site not supported"
   end
 
   def scrape
     @base_url = get_base_url
-    return "Cannot find story at url provided." unless @base_url
+    raise ScraperError, "Cannot find story at url provided." unless @base_url
     @agent = Mechanize.new
+    @agent.user_agent = "This is an experimental bot. If you have questions or concerns please email me: danieljmolloy1@gmail.com"
     if story_exists?
       update_story
     else
@@ -37,22 +58,26 @@ class Scraper
     end
   end
 
-  def get_chapters(chapter_urls, offset=0)
-    chapter_urls.each_with_index do |chapter, index|
-      sleep(4)
-      @page = @agent.get(chapter) unless chapter == @page.uri
-      Chapter.create(title: get_chapter_title,
-                     content: get_chapter_content,
-                     number: index + 1 + offset,
-                     story_id: @story.id)
-    end
-  end
-
   def get_story
     @page = get_metadata_page
     @story = Story.create(url: @base_url,
                           title: get_story_title,
                           author: get_author)
     get_chapters(get_chapter_urls)
+  end
+
+  def get_page(url)
+    tries = 3
+    begin
+      sleep(3)
+      @agent.get(url)
+    rescue Exception => e
+      if tries > 0
+        tries -= 1
+        retry
+      else
+        raise ScraperError, e.message
+      end
+    end
   end
 end

@@ -1,0 +1,3 @@
+class ScraperError < StandardError
+
+end

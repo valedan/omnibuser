@@ -1,12 +1,17 @@
 class SVScraper < Scraper
-
   def get_base_url
     @url.match(/forums\.(sufficientvelocity|spacebattles)\.com\/threads\/.+\.\d+/)
   end
 
   def get_metadata_page
-    #raise if no threadmarks
-    @agent.get("https://#{@base_url}/threadmarks")
+    begin
+      get_page("https://#{@base_url}/threadmarks")
+    rescue StandardError => e
+      if e.to_s.start_with?('404')
+        raise ScraperError, "No threadmarks found for this post"
+      else raise e
+      end
+    end
   end
 
   def get_story_title
@@ -44,8 +49,7 @@ class SVScraper < Scraper
     chapter_urls.uniq!
     @index = 1
     chapter_urls.each do |url|
-      sleep(4)
-      @page = @agent.get(url)
+      @page = get_page(url)
       @story.update(author: get_author) if @story.author.blank?
       @page.css(".message.hasThreadmark").each do |chapter|
         next if chapter_exists?(chapter)

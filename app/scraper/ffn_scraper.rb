@@ -1,5 +1,4 @@
 class FFNScraper < Scraper
-
   def get_base_url
     @url.match(/(fictionpress\.com|fanfiction\.net)\/s\/\d+\//)
   end
@@ -13,8 +12,6 @@ class FFNScraper < Scraper
   end
 
   def get_chapter_urls
-    puts "IN GET_CHAP_URLS"
-
     unless @page.css("#chap_select").empty?
       @page.at_css("#chap_select").css("option").map do |option|
         "https://www.#{@base_url}#{option['value']}/"
@@ -36,12 +33,22 @@ class FFNScraper < Scraper
     title
   end
 
+  def get_chapters(chapter_urls, offset=0)
+    chapter_urls.each_with_index do |chapter, index|
+      @page = get_page(chapter) unless chapter == @page.uri
+      Chapter.create(title: get_chapter_title,
+                     content: get_chapter_content,
+                     number: index + 1 + offset,
+                     story_id: @story.id)
+    end
+  end
+
   def get_chapter_content
     @page.at_css("#storytext").to_s
   end
 
   def get_metadata_page
-    @agent.get("https://www.#{@base_url}1/")
+    get_page("https://www.#{@base_url}1/")
   end
 
 
