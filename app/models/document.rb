@@ -1,7 +1,12 @@
 class Document < ApplicationRecord
   belongs_to :story
+  before_create :sanitize_filename
   after_create :build_file
   before_destroy :delete_file
+
+  def sanitize_filename
+    self.filename.gsub!(/[^\w]/, '_')
+  end
 
   def path
     Rails.root.join('public', 'documents', "#{filename}.#{extension}")

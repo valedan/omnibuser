@@ -1,7 +1,7 @@
 class FFNScraper < Scraper
 
   def get_base_url
-    @url.match(/fanfiction\.net\/s\/\d+\//)
+    @url.match(/(fictionpress\.com|fanfiction\.net)\/s\/\d+\//)
   end
 
   def get_story_title

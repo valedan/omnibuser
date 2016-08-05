@@ -1,7 +1,7 @@
 class SVScraper < Scraper
 
   def get_base_url
-    @url.match(/forums.sufficientvelocity.com\/threads\/.+\.\d+/)
+    @url.match(/forums\.(sufficientvelocity|spacebattles)\.com\/threads\/.+\.\d+/)
   end
 
   def get_metadata_page
@@ -23,7 +23,7 @@ class SVScraper < Scraper
 
   def get_chapter_urls
     @page.css(".threadmarkItem a").map do |t|
-       "https://forums.sufficientvelocity.com/#{t.attr('href')}".sub(/#post-\d+/, '')
+       "https://#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
     end
   end
 
