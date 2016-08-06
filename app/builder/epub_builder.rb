@@ -1,0 +1,3 @@
+class EPUBBuilder < Builder
+
+end

@@ -2,6 +2,8 @@
 <%= form_tag do %>
 <%= text_field_tag(:q) %>
 <%= submit_tag("Get") %>
+<br>
+<%= select_tag(:ext, options_for_select(['html', 'mobi', 'epub', 'pdf'])) %>
 <% end %>
 
 <% if @doc_id %>

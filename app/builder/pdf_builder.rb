@@ -1,0 +1,3 @@
+class PDFBuilder < Builder
+
+end

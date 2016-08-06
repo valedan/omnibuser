@@ -1,7 +1,7 @@
 class Document < ApplicationRecord
   belongs_to :story
   before_create :sanitize_filename
-  after_create :build_file
+  after_create :build
   before_destroy :delete_file
 
   def sanitize_filename
@@ -16,35 +16,17 @@ class Document < ApplicationRecord
     File.delete(self.path)
   end
 
-  def build_file
-    @file = File.open(self.path, 'w+')
-    add_file_header
-    self.story.chapters.order(:number).each do |chapter|
-      add_chapter(chapter)
+  def build
+    builder = case extension
+    when 'html'
+      HTMLBuilder
+    when 'mobi'
+      MOBIBuilder
+    when 'epub'
+      EPUBBuilder
+    when 'pdf'
+      PDFBuilder
     end
-    add_file_footer
-    @file.close
-  end
-
-  def add_file_header
-    @file << "<!DOCTYPE html>
-            <?xml version=\"1.0\" encoding=\"UTF-8\" ?>
-            <html lang=\"en\">
-            <head>
-            <meta http-equiv=\"content-type\" content=\"application/xhtml+xml; charset=UTF-8\" >
-            <title>#{self.story.title}</title>
-            <author>#{self.story.author}</author>
-            </head>
-            <body>"
-  end
-
-  def add_chapter(chapter)
-    @file << "<h1 style=\"page-break-before:always;\">#{chapter.title}</h1>"
-    @file << "#{chapter.content}"
-  end
-
-  def add_file_footer
-    @file << "</body>
-              </html>"
+    builder.new(doc: self).build
   end
 end

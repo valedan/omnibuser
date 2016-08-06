@@ -1,0 +1,3 @@
+class MOBIBuilder < Builder
+
+end

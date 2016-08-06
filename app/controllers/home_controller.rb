@@ -16,7 +16,8 @@ class HomeController < ApplicationController
     end
     begin
       @scraper = Scraper.create(@url)
-      @doc_id = @scraper.scrape
+      @story = @scraper.scrape
+      @doc_id = @story.build(params[:ext])
     rescue ScraperError => e
       flash.now[:error] = e.message
     end
@@ -25,7 +26,7 @@ class HomeController < ApplicationController
 
   private
   def request_params
-    params.require(:q)
+    params.require(:q, :ext)
   end
 
 
