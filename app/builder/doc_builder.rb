@@ -1,4 +1,4 @@
-class Builder
+class DocBuilder
   include ActiveModel::Model
   attr_accessor :doc
 
@@ -11,6 +11,7 @@ class Builder
     end
     add_file_footer
     @file.close
+    @file.path
   end
 
 end

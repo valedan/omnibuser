@@ -18,3 +18,7 @@
 
 # Ignore documents
 /public/documents/*
+
+# 3rd party tools
+/lib/kindlegen
+/lib/pandoc

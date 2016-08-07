@@ -1,4 +1,4 @@
-class HTMLBuilder < Builder
+class HTMLBuilder < DocBuilder
   def add_file_header
     @file << "<!DOCTYPE html>
             <?xml version=\"1.0\" encoding=\"UTF-8\" ?>
