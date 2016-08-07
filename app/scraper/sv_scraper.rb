@@ -3,6 +3,16 @@ class SVScraper < Scraper
     @url.match(/forums\.(sufficientvelocity|spacebattles)\.com\/threads\/.+\.\d+/)
   end
 
+  def get_metadata
+    if @page.uri.to_s == "https://#{@base_url}/threadmarks"
+      ""
+    else
+      pub_date = @page.at_css(".message.hasThreadmark .primaryContent .messageMeta .datePermalink").text
+      {published: pub_date}.to_json
+    end
+
+  end
+
   def get_metadata_page
     begin
       get_page("https://#{@base_url}/threadmarks")
@@ -51,6 +61,7 @@ class SVScraper < Scraper
     chapter_urls.each do |url|
       @page = get_page(url)
       @story.update(author: get_author) if @story.author.blank?
+      @story.update(meta_data: get_metadata) if @story.meta_data.blank?
       @page.css(".message.hasThreadmark").each do |chapter|
         next if chapter_exists?(chapter)
         Chapter.create(title: get_chapter_title(chapter),

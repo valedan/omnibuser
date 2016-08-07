@@ -3,6 +3,12 @@ class FFNScraper < Scraper
     @url.match(/(fictionpress\.com|fanfiction\.net)\/s\/\d+\//)
   end
 
+  def get_metadata
+    summary = @page.at_css("#profile_top div.xcontrast_txt").text
+    meta = @page.at_css("#profile_top span.xgray.xcontrast_txt").text
+    {summary: summary, info: meta}.to_json
+  end
+
   def get_story_title
     @page.at_css("#profile_top .xcontrast_txt").text.strip
   end

@@ -3,6 +3,16 @@ class AO3Scraper < Scraper
     @url.match(/archiveofourown\.org\/works\/\d+/)
   end
 
+  def get_metadata
+    metadata = {}
+    #needs work to space suout lists
+    @page.css("dl.work dt").each do |datatag|
+      data = @page.at_css("dl.work dd.#{datatag.attr('class').split(' ')[0]}")
+      metadata[datatag.text.gsub(':', '').strip] = data.content
+    end
+    metadata.to_json
+  end
+
   def get_story_title
     @page.at_css(".title.heading").text.strip
   end
@@ -61,6 +71,8 @@ class AO3Scraper < Scraper
     if @cached_story.created_at < 5.minutes.ago
       @cached_story.destroy
       get_story
+    else
+      @story = @cached_story
     end
   end
 

@@ -53,6 +53,7 @@ class Scraper
         get_story
       end
     elsif cached_chapters.length < live_chapters.length
+      @story.update(meta_data: get_metadata)
       live_chapters.shift(cached_chapters.length)
       get_chapters(live_chapters, cached_chapters.length)
     end
@@ -62,7 +63,8 @@ class Scraper
     @page = get_metadata_page
     @story = Story.create(url: @base_url,
                           title: get_story_title,
-                          author: get_author)
+                          author: get_author,
+                          meta_data: get_metadata)
     get_chapters(get_chapter_urls)
   end
 

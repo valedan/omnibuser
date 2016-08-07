@@ -14,6 +14,7 @@ class QQScraper < SVScraper
       @page = get_page(url)
       chapter = @page.at_css("[@id='#{@page.uri.fragment}']")
       @story.update(author: get_author) if @story.author.blank?
+      @story.update(meta_data: get_metadata) if @story.meta_data.blank?
       Chapter.create(title: get_chapter_title(chapter),
                      content: get_chapter_content(chapter),
                      number: index + 1 + offset,
