@@ -11,7 +11,6 @@ class Scraper
   def self.determine_type
     @valid_domains = {"fanfiction.net" => FFNScraper,
                       "fictionpress.com" => FFNScraper,
-                      "archiveofourown.org" => AO3Scraper,
                       "forums.sufficientvelocity.com" => SVScraper,
                       "forums.spacebattles.com" => SVScraper,
                       "forum.questionablequesting.com" => QQScraper
