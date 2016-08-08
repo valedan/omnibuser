@@ -1,3 +1,66 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body{
+  margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+  background-color: #efefef;
+}
+h1{
+  text-align:center;
+}
+#omni{
+  color:red;
+}
+#buser{
+  color:#ffd11a;
+}
+#form{
+  text-align: center;
+}
+#description{
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+#supported-sites{
+
+}
+#error-explanation{
+
+}
+#q{
+  width: 60%;
+  margin-bottom: 10px;
+}
+#ext{
+
+}
+label[for="ext"]{
+
+}
+
+// .button {
+// 	background-color:#cc0000;
+// 	-moz-border-radius:24px;
+// 	-webkit-border-radius:24px;
+// 	border-radius:24px;
+// 	border:1px solid #241d13;
+// 	display:inline-block;
+// 	cursor:pointer;
+// 	color:#ffffff;
+// 	font-family:Arial;
+// 	font-size:15px;
+// 	font-weight:bold;
+// 	padding:6px 23px;
+// 	text-decoration:none;
+// 	text-shadow:0px -1px 0px #7a2a1d;
+// }
+// .button:hover {
+// 	background-color:#cc0000;
+// }
+// .button:active {
+// 	position:relative;
+// 	top:1px;
+// }
