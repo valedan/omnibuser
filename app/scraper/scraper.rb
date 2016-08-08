@@ -70,7 +70,7 @@ class Scraper
   def get_page(url)
     tries = 3
     begin
-      sleep(3)
+      sleep(1)
       @agent.get(url)
     rescue Exception => e
       if tries > 0
