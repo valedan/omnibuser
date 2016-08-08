@@ -20,5 +20,5 @@
 /public/documents/*
 
 # 3rd party tools
-/lib/kindlegen
-/lib/pandoc
+#/lib/kindlegen
+#/lib/pandoc
