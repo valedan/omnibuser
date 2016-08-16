@@ -1,24 +1,44 @@
-<h1>Omnibuser</h1>
-<%= form_tag do %>
-<%= text_field_tag(:q) %>
-<%= submit_tag("Get") %>
-<br>
-<%= select_tag(:ext, options_for_select(['html', 'mobi', 'epub', 'pdf'])) %>
-<% end %>
-
-<% if @doc_id %>
-<%= link_to "Download file", "/documents/#{@doc_id}", method: :post %>
-<% end %>
-<% flash.each do |name, msg| -%>
-<%= content_tag :div, msg, class: name %>
-<% end -%>
-
-<% if @request && @request.errors.any? %>
-<div id="error_explanation">
-  <ul>
-    <% @request.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
+<div id="main_content">
+  <h1><span id="omni">Omni</span><span id="buser">buser</span></h1>
+  <div id="form">
+    <%= form_tag do %>
+    <%= text_field_tag(:q) %>
+    <%= submit_tag("Get", class: 'button') %>
+    <br>
+    <%= label_tag(:ext, "Select ebook file type:")%>
+    <%= select_tag(:ext, options_for_select(['html', 'mobi', 'epub', 'pdf'])) %>
     <% end %>
-  </ul>
+  </div>
+
+  <% if @doc_id %>
+  <%= link_to "Download file", "/documents/#{@doc_id}", method: :post %>
+  <% end %>
+  <% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+  <% end -%>
+
+  <% if @request && @request.errors.any? %>
+  <div id="error-explanation">
+    <ul>
+      <% @request.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div id="description">
+    <p>Convert your favourite online fiction into a convenient ebook! Enter a link to the story in the box above, select the file type you want for the ebook, and hit Get.</p>
+  </div>
+
+  <div id="supported-sites">
+    <h3> Supported sites</h3>
+    <ul>
+      <li>fanfiction.net</li>
+      <li>fictionpress.com</li>
+      <li>forums.spacebattles.com</li>
+      <li>forums.sufficientvelocity.com</li>
+      <li>forums.questionablequesting.com</li>
+    </ul>
+  </div>
 </div>
-<% end %>
