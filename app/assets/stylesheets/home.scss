@@ -2,13 +2,63 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body{
-  margin-top: 10%;
+
+#header{
+  clear:both;
+  width:100%;
+  margin-bottom: 10%;
+  height:10%;
+}
+
+.tab{
+  background: white;
+  color: red;
+  display: inline-block;
+  height: 50px;
+  line-height: 3;
+  margin: 0;
+  text-align: center;
+  width: 90px;
+}
+
+#header_logo_pic{
+  float:left;
+}
+
+#header_logo_text{
+  float:right;
+}
+
+#about_tab{
+  // float:left;
+}
+
+#contact_tab{
+  // float:right;
+}
+
+
+#header_logo{
+  width:70%;
+  float:left;
+}
+#tabs{
+  width:30%;
+  float:right;
+}
+
+#main_content{
   margin-left: 20%;
   margin-right: 20%;
+}
+
+body{
+  margin-top: 0;
+  padding-top: 0;
   background-color: #efefef;
 }
 h1{
+  margin-top: 10%;
   text-align:center;
 }
 #omni{
