@@ -17,8 +17,9 @@
 .byebug_history
 
 # Ignore documents
-#/public/documents/*
+/public/documents/*
+/public/images/*
 
 # 3rd party tools
-# /lib/kindlegen
-# /lib/pandoc
+/lib/kindlegen
+/lib/pandoc
