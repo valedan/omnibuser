@@ -2,59 +2,78 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+//////// RESET
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+// html, body, div, span, applet, object, iframe,
+// h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+// a, abbr, acronym, address, big, cite, code,
+// del, dfn, em, img, ins, kbd, q, s, samp,
+// small, strike, strong, sub, sup, tt, var,
+// b, u, i, center,
+// dl, dt, dd, ol, ul, li,
+// fieldset, form, label, legend,
+// table, caption, tbody, tfoot, thead, tr, th, td,
+// article, aside, canvas, details, embed,
+// figure, figcaption, footer, header, hgroup,
+// menu, nav, output, ruby, section, summary,
+// time, mark, audio, video {
+// 	margin: 0;
+// 	padding: 0;
+// 	border: 0;
+// 	font-size: 100%;
+// 	font: inherit;
+// 	vertical-align: baseline;
+// }
+// /* HTML5 display-role reset for older browsers */
+// article, aside, details, figcaption, figure,
+// footer, header, hgroup, menu, nav, section {
+// 	display: block;
+// }
+// body {
+// 	line-height: 1;
+// }
+// ol, ul {
+// 	list-style: none;
+// }
+// blockquote, q {
+// 	quotes: none;
+// }
+// blockquote:before, blockquote:after,
+// q:before, q:after {
+// 	content: '';
+// 	content: none;
+// }
+// table {
+// 	border-collapse: collapse;
+// 	border-spacing: 0;
+// }
+
+//////////////////////////////
 
 $primary_color: #bbb; //body background
 $secondary_color: #DEE3E5; // header background
 $tertiary_color: #DEE3E5; //content box background
 $highlight_color: #1B2024;
 
-html{
-  height:100%;
-}
+/////// LAYOUT
 
-.footer_pic{
-  display: inline;
-  height: 30px;
-  margin-left: 1em;
-  margin-top: 0.5em;
-}
-
-
-option{
-  outline:none;
-}
-
-#footer div{
-  display: inline;
-}
-
-#footer{
-  text-align: center;
-  padding: 0em 0em 0.5em 0em;
-  width: 100%;
-  height: 35px;
-  background-color: $secondary_color;
-  border-top: 1px solid black;
-  //clear:both;
-  //float:left;
-  position: absolute;
-right: 0;
-bottom: 0;
-left: 0;
-}
-
+////////////// HEADER
 #header{
+  position: absolute;
+  left: 0;
+  top: 0;
   clear:both;
   width:100%;
   margin-bottom: 10%;
-//  height:10%;
   background-color: $secondary_color;
-  //background-image: image-url("nice_snow.png");
   border-bottom: 1px solid black;
   float: left;
   z-index: 1;
-  // padding-bottom: 5px;
-  // padding-top:5px;
 }
 
 .tab{
@@ -74,9 +93,9 @@ left: 0;
 }
 
 #tabs{
-  width:30%;
   float:right;
   margin-top: 10px;
+  margin-right: 10%;
 }
 
 #header_logo{
@@ -100,45 +119,60 @@ left: 0;
 
 }
 
-#about_tab{
-  // float:left;
+////////////// FOOTER
+.footer_pic{
+  display: inline;
+  height: 30px;
+  margin-left: 1em;
+  margin-top: 0.5em;
 }
 
-#contact_tab{
-  // float:right;
+#footer div{
+  display: inline;
 }
 
-
-#about-content{
-  text-align: left;
-}
-.main_content{
+#footer{
   text-align: center;
-  margin-top:10%;
-  padding: 3em;
-  //padding-top: 3em;
-  margin-left: 15%;
-  margin-right: 15%;
-  background-color: $tertiary_color;
+  padding: 0em 0em 0.5em 0em;
+  width: 100%;
+  height: 35px;
+  background-color: $secondary_color;
+  border-top: 1px solid black;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
+
+#footer a{
+  text-decoration: none;
+}
+//////////////
+
+
+html{
+  position: relative;
+  min-height: 100%;
+}
+
 #wrapper{
  z-index: -1;
+ height: 100%;
  background-color: $primary_color;
  opacity: 0.6;
- position:fixed;
- height: 100%;
+ position:absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
  width:100%;
 }
+
 body{
-  height: 100%;
-  margin: 0;
-  padding-top: 0;
-  position: absolute;
-  //background-color: $primary_color;
+  margin: 0 0 35px 0;
+   padding-top: 0;
   background: image-url("books.jpg") no-repeat fixed 100%;
   width: 100%;
 }
-
 
 #omni{
   color:$highlight_color;
@@ -146,13 +180,34 @@ body{
 #buser{
   color:$highlight_color;
 }
+
+///////
+
+option{
+  outline:none;
+}
+
+#about-content{
+  text-align: left;
+}
+.main_content{
+  text-align: center;
+  margin-top:10%;
+  margin-bottom: 10%;
+  padding: 3em;
+  //padding-top: 3em;
+  margin-left: 15%;
+  margin-right: 15%;
+  background-color: $tertiary_color;
+}
+
 #form{
   margin-top:2em;
   text-align: center;
 }
 #description{
-  margin-top: 30px;
-  margin-bottom: 40px;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 #supported-sites{
 
@@ -162,11 +217,15 @@ body{
 }
 #q{
   width: 60%;
-  height: 30px;
-  padding-left: 10px;
+  height: 2em;
+  padding-left: 1em;
   border-radius: 30px;
   border: none;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em;
+}
+
+input:focus, input:active {
+  outline: none;
 }
 #ext{
 
@@ -180,17 +239,14 @@ label[for="ext"]{
 	-moz-border-radius:24px;
 	-webkit-border-radius:24px;
 	border-radius:24px;
-	//border:1px solid #241d13;
   border:none;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	//font-family:Arial;
-	font-size:15px;
+	font-size:1em;
 	font-weight:bold;
-	padding:6px 12px;
+	padding:0.5em 0.8em;
 	text-decoration:none;
-	//text-shadow:0px -1px 0px #7a2a1d;
 }
 .button:hover {
 	background-color:$highlight_color;
@@ -199,27 +255,6 @@ label[for="ext"]{
 	position:relative;
 	top:1px;
 }
-
-// .dropdown {
-// 	background-color:$highlight_color;
-// 	-moz-border-radius:24px;
-// 	-webkit-border-radius:24px;
-// 	// border-radius:24px;
-// 	//border:1px solid #241d13;
-//   border:none;
-// 	display:inline-block;
-// 	cursor:pointer;
-// 	color:#ffffff;
-// 	//font-family:Arial;
-// 	font-size:15px;
-// 	font-weight:bold;
-// 	padding:6px 12px;
-// 	text-decoration:none;
-// 	//text-shadow:0px -1px 0px #7a2a1d;
-// }
-// .dropdown:hover {
-// 	background-color:$highlight_color;
-// }
 
 .dropdown {
   background-image:
@@ -248,7 +283,6 @@ select {
   display: inline-block;
   line-height: 1em;
   padding: 0.5em 3.5em 0.5em 1em;
-  outline: 0 !important;
 
   /* reset */
 
@@ -259,9 +293,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-select:active{
-  outline:none !important;
-}
+
 .dropdown:focus {
   background-image:
     linear-gradient(45deg, white 50%, transparent 50%),
@@ -282,11 +314,30 @@ select:active{
 }
 .dropdown:active{
   color:white;
-  outline: none;
 }
 
 .dropdown:-moz-focusring {
   //hide outline on firefox
   color: transparent;
   text-shadow: 0 0 0 #fff;
+}
+
+
+h1, h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+
+
+li {
+  font-size: 1.1em;
+}
+
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+  text-align: left;
+  line-height: 1.1;
 }
