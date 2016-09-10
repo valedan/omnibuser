@@ -3,9 +3,9 @@
   <h1>Convert your favourite online fiction into a convenient ebook!</h1>
 
   <div id="form">
-    <%= form_tag do %>
+    <%= form_tag('/', remote: true, id: "request_form") do %>
     <%= text_field_tag(:q) %>
-    <%= submit_tag("Get", class: 'button') %>
+    <%= submit_tag("Get", class: 'button', id: 'submit', data: {disable_with: "Get"}) %>
     <br>
     <%= label_tag(:ext, "Select ebook file type:")%>
     <%= select_tag(:ext, options_for_select(['html', 'mobi', 'epub', 'pdf']), class:'dropdown') %>
@@ -18,16 +18,16 @@
   <% flash.each do |name, msg| -%>
   <%= content_tag :div, msg, class: name %>
   <% end -%>
-
-  <% if @request && @request.errors.any? %>
-  <div id="error-explanation">
-    <ul>
-      <% @request.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-      <% end %>
-    </ul>
+  <div id="progressbar">
+    <div class="progress-label">Loading...</div>
   </div>
-  <% end %>
+
+  <div id="download">
+  </div>
+
+  <div id="error-explanation">
+    <div id="error-container"></div>
+  </div>
 
   <div id="description">
     <p> Enter a link to the story in the box above, select the file type you want for the ebook, and hit Get.</p>

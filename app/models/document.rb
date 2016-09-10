@@ -13,7 +13,7 @@ class Document < ApplicationRecord
   end
 
   def delete_file
-    File.delete(self.path)
+    File.delete(self.path) if File.exist?(self.path)
   end
 
   def build

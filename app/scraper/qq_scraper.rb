@@ -10,15 +10,29 @@ class QQScraper < SVScraper
   end
 
   def get_chapters(chapter_urls, offset=0)
-    chapter_urls.each_with_index do |url, index|
+    @cached_chapters = @cached_story.chapters.all if offset > 0
+    @index = 1
+    until chapter_urls.empty? do
+      puts chapter_urls
+      url = chapter_urls.first
       @page = get_page(url)
-      chapter = @page.at_css("[@id='#{@page.uri.fragment}']")
       @story.update(author: get_author) if @story.author.blank?
       @story.update(meta_data: get_metadata) if @story.meta_data.blank?
-      Chapter.create(title: get_chapter_title(chapter),
-                     content: get_chapter_content(chapter),
-                     number: index + 1 + offset,
-                     story_id: @story.id)
+      @page.css(".message.hasThreadmark").each do |chapter|
+        chapter_id = chapter.attr("id").split("-")[1]
+        puts chapter_id
+        chapter_urls.delete_if do |chapter_url|
+          chapter_url.split("/").last == chapter_id
+        end
+        puts "after delete loop"
+        puts chapter_urls
+        Chapter.create(title: get_chapter_title(chapter),
+                       content: get_chapter_content(chapter),
+                       number: @index + offset,
+                       story_id: @story.id)
+        @index += 1
+        @request.increment!(:current_chapters)
+      end
     end
   end
 end

@@ -18,7 +18,7 @@ class SVScraper < Scraper
       get_page("https://#{@base_url}/threadmarks")
     rescue StandardError => e
       if e.to_s.start_with?('404')
-        raise ScraperError, "No threadmarks found for this post"
+        raise ScraperError, "No threadmarks were found for this post. At this time only threads with threadmarks can be converted."
       else raise e
       end
     end
@@ -69,7 +69,9 @@ class SVScraper < Scraper
                        number: @index + offset,
                        story_id: @story.id)
         @index += 1
-      end
+        @request.increment!(:current_chapters)
+      end  
+
     end
   end
 

@@ -4,24 +4,52 @@ class HomeController < ApplicationController
   end
 
   def download
-    @doc = Document.find(params[:id])
-    send_file(@doc.path)
+    begin
+      @doc = Document.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+    end
+    if @doc && File.exist?(@doc.path)
+      send_file(@doc.path)
+    else
+      redirect_to root_path
+    end
+  end
+
+  def status
+    request = Request.find(params[:id])
+    respond_to do |format|
+      format.json {render json: request.to_json, status: :ok}
+    end
+  end
+
+  def scrape
+    respond_to do |format|
+      begin
+        @request = Request.find(params[:id])
+        @request.update(complete: false, status: "In Progress")
+        @scraper = Scraper.create(@request.url, @request)
+        @story = @scraper.scrape
+        @request.update(story_id: @story.id)
+        @doc_id = @story.build(@request.extension)
+        @request.update(complete: true, status: "Success")
+        #
+        format.json {render json: @doc_id, status: :ok}
+      rescue ScraperError => e
+        @request.update(complete: true, status: e)
+        format.json {render json: @request, status: 422}
+      rescue Exception => e
+        @request.update(complete: true, status: "Sorry, something went wrong.")
+        format.json {render json: @request, status: 422}
+        raise e
+      end
+    end
   end
 
   def new
-    @url = params[:q]
-    @request = Request.create(url: @url)
-    if @request.invalid?
-      render :index and return
+    @request = Request.create(url: params[:q], extension: params[:ext],  status: "Initializing")
+    respond_to do |format|
+      format.json {render json: @request.to_json, status: :created}
     end
-    begin
-      @scraper = Scraper.create(@url)
-      @story = @scraper.scrape
-      @doc_id = @story.build(params[:ext])
-    rescue ScraperError => e
-      flash.now[:error] = e.message
-    end
-    render :index
   end
 
   private
@@ -29,9 +57,4 @@ class HomeController < ApplicationController
     params.require(:q, :ext)
   end
 
-
-  ### Formats to support:
-  # mobi
-  # epub
-  # pdf
 end

@@ -18,8 +18,8 @@
 
 # Ignore documents
 /public/documents/*
-/public/images/*
+#/public/images/*
 
 # 3rd party tools
-/lib/kindlegen
-/lib/pandoc
+#/lib/kindlegen
+#/lib/pandoc

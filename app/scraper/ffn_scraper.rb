@@ -10,7 +10,11 @@ class FFNScraper < Scraper
   end
 
   def get_story_title
-    @page.at_css("#profile_top .xcontrast_txt").text.strip
+    if @page.at_css("#profile_top .xcontrast_txt")
+      return  @page.at_css("#profile_top .xcontrast_txt").text.strip
+    else
+      raise ScraperError, "Cannot find a story at url provided. Please recheck the url."
+    end
   end
 
   def get_author
@@ -46,6 +50,7 @@ class FFNScraper < Scraper
                      content: get_chapter_content,
                      number: index + 1 + offset,
                      story_id: @story.id)
+      @request.increment!(:current_chapters)
     end
   end
 

@@ -182,6 +182,61 @@ body{
 }
 
 ///////
+.clear {
+    border: none;
+    clear: both;
+}
+
+//////PROGRESSBAR
+
+#progressbar{
+  margin-top:15px;
+  margin-left:auto;
+  margin-right:auto;
+  width:80%;
+}
+.ui-progressbar-overlay{
+  opacity: 0.2 !important;
+}
+.ui-widget-header{
+  background-color: #ddd !important;
+}
+
+.ui-progressbar {
+  position: relative;
+}
+.progress-label {
+  position: absolute;
+  left: 45%;
+  top: 7px;
+  font-weight: bold;
+  z-index:10;
+  color: #000;
+
+}
+
+//////////////
+#error-explanation{
+  color:#555;
+	border-radius:10px;
+  width: 80%;
+	// font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+//  font-size:
+	padding:10px 36px;
+  margin-top: 10px;
+	margin-left:auto;
+  margin-right:auto;
+  background:#ffecec url('../../images/error.png') no-repeat 10px 50%;
+	border:1px solid #f5aca6;
+}
+#error-explanation span{
+  font-weight:bold;
+	text-transform:uppercase;
+}
+
+#error-explanation p{
+  display: inline;
+}
 
 option{
   outline:none;
@@ -292,6 +347,18 @@ select {
   box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+
+#download{
+  margin-top:15px;
+}
+
+#downloadLink{
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  border-radius:4px;
+  text-decoration: underline;
+  font-size: 1.2em;
 }
 
 .dropdown:focus {
