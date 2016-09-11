@@ -9,11 +9,11 @@ class Document < ApplicationRecord
   end
 
   def path
-    Rails.root.to_s.join('tmp', 'documents', "#{filename}.#{extension}")
+    "#{Rails.root.to_s}/tmp/documents/#{filename}.#{extension}"
   end
 
   def delete_file
-    Tempfile.delete(self.path) if Tempfile.exist?(self.path)
+    File.delete(self.path) if File.exist?(self.path)
   end
 
   def build

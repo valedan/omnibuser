@@ -10,6 +10,6 @@ class Story < ApplicationRecord
 
     puts "story after doc create"
     # DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
-    # @doc.id
+    @doc.id
   end
 end

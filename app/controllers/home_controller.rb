@@ -8,7 +8,7 @@ class HomeController < ApplicationController
       @doc = Document.find(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
-    if @doc && Tempfile.exist?(@doc.path)
+    if @doc && File.exist?(@doc.path)
       send_file(@doc.path)
     else
       redirect_to root_path
