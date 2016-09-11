@@ -9,7 +9,7 @@ class Document < ApplicationRecord
   end
 
   def path
-    Rails.root.join('tmp', 'documents', "#{filename}.#{extension}")
+    Rails.root.to_s.join('tmp', 'documents', "#{filename}.#{extension}")
   end
 
   def delete_file
