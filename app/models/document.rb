@@ -9,7 +9,7 @@ class Document < ApplicationRecord
   end
 
   def path
-    "#{Rails.root.to_s}/tmp/documents/#{filename}.#{extension}"
+    "../tmp/#{filename}.#{extension}"
   end
 
   def delete_file
