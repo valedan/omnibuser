@@ -4,8 +4,11 @@ class Story < ApplicationRecord
   has_many :requests
 
   def build(ext)
+    puts "story before doc create"
     @doc = Document.create(story_id: self.id, filename: self.title,
                            extension: ext)
+
+    puts "story after doc create"
     # DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
     # @doc.id
   end
