@@ -8,7 +8,7 @@ class HomeController < ApplicationController
       @doc = Document.find(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
-    if @doc && File.exist?(@doc.path)
+    if @doc && Tempfile.exist?(@doc.path)
       send_file(@doc.path)
     else
       redirect_to root_path
@@ -23,6 +23,7 @@ class HomeController < ApplicationController
   end
 
   def scrape
+    puts "begin scrape"
     respond_to do |format|
       begin
         @request = Request.find(params[:id])

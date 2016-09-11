@@ -4,7 +4,7 @@ class DocBuilder
 
   def build
     puts "builder before file open"
-    @file = File.open(@doc.path, 'w+')
+    @file = Tempfile.new(@doc.path, 'w+')
     puts "builder after file open"
     add_file_header
     add_file_frontmatter
