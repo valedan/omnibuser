@@ -6,7 +6,7 @@ class Story < ApplicationRecord
   def build(ext)
     @doc = Document.create(story_id: self.id, filename: self.title,
                            extension: ext)
-    DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
-    @doc.id
+    # DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
+    # @doc.id
   end
 end
