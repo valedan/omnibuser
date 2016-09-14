@@ -9,7 +9,7 @@ class Document < ApplicationRecord
   end
 
   def path
-    "../tmp/#{filename}.#{extension}"
+    "/tmp/#{filename}.#{extension}"
   end
 
   def delete_file
