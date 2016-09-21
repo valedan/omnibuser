@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160903194955) do
+ActiveRecord::Schema.define(version: 20160919111248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20160903194955) do
     t.integer  "current_chapters"
     t.string   "extension"
     t.index ["story_id"], name: "index_requests_on_story_id", using: :btree
+  end
+
+  create_table "scraper_queues", force: :cascade do |t|
+    t.string   "domain"
+    t.datetime "last_access"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "queue",       default: [],              array: true
   end
 
   create_table "stories", force: :cascade do |t|

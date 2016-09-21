@@ -15,7 +15,7 @@ class QQScraper < SVScraper
     until chapter_urls.empty? do
       puts chapter_urls
       url = chapter_urls.first
-      @page = get_page(url)
+      @page = queue_page(url)
       @story.update(author: get_author) if @story.author.blank?
       @story.update(meta_data: get_metadata) if @story.meta_data.blank?
       @page.css(".message.hasThreadmark").each do |chapter|

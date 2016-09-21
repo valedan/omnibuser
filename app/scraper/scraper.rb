@@ -78,9 +78,8 @@ class Scraper
 
   def get_page(url)
     tries = 3
-    puts "Retrieving page: #{url}"
     begin
-      sleep(2)
+      sleep(3)
       @agent.get(url)
     rescue Exception => e
       if tries > 0
@@ -91,4 +90,29 @@ class Scraper
       end
     end
   end
+
+  def queue_page(url)
+    get_page(url)
+    # delay = 5
+    # domain = self.class.to_s
+    # queue = ScraperQueue.find_or_create_by(domain: domain) do |q|
+    #   q.queue = []
+    #   q.last_access = Time.now - delay.seconds
+    # end
+    # queue.add(self)
+    #
+    # until queue.first?(self)
+    #   sleep(0.1)
+    # end
+    #
+    # unless queue.last_access && queue.last_access < delay.seconds.ago
+    #   sleep(delay - (Time.now - queue.last_access))
+    # end
+    # page = get_page(url)
+    # queue.last_access = Time.now
+    # queue.remove(self)
+    # page
+  end
+
+
 end

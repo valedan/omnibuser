@@ -15,7 +15,7 @@ class SVScraper < Scraper
 
   def get_metadata_page
     begin
-      get_page("https://#{@base_url}/threadmarks")
+      queue_page("https://#{@base_url}/threadmarks")
     rescue StandardError => e
       if e.to_s.start_with?('404')
         raise ScraperError, "No threadmarks were found for this post. At this time only threads with threadmarks can be converted."
@@ -59,7 +59,7 @@ class SVScraper < Scraper
     chapter_urls.uniq!
     @index = 1
     chapter_urls.each do |url|
-      @page = get_page(url)
+      @page = queue_page(url)
       @story.update(author: get_author) if @story.author.blank?
       @story.update(meta_data: get_metadata) if @story.meta_data.blank?
       @page.css(".message.hasThreadmark").each do |chapter|
@@ -70,7 +70,7 @@ class SVScraper < Scraper
                        story_id: @story.id)
         @index += 1
         @request.increment!(:current_chapters)
-      end  
+      end
 
     end
   end

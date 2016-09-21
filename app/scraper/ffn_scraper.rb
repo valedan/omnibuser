@@ -45,7 +45,7 @@ class FFNScraper < Scraper
 
   def get_chapters(chapter_urls, offset=0)
     chapter_urls.each_with_index do |chapter, index|
-      @page = get_page(chapter) unless chapter == @page.uri
+      @page = queue_page(chapter) unless chapter == @page.uri
       Chapter.create(title: get_chapter_title,
                      content: get_chapter_content,
                      number: index + 1 + offset,
@@ -59,7 +59,7 @@ class FFNScraper < Scraper
   end
 
   def get_metadata_page
-    get_page("https://www.#{@base_url}1/")
+    queue_page("https://www.#{@base_url}1/")
   end
 
 
