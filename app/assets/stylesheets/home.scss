@@ -171,6 +171,7 @@ body{
   margin: 0 0 35px 0;
    padding-top: 0;
   background: image-url("books.jpg") no-repeat fixed 100%;
+  background-size: cover;
   width: 100%;
 }
 
@@ -415,7 +416,7 @@ ul{
 }
 
 // Mobile adjustments
-@media (max-width: 600px) {
+@media screen and (max-width: 600px), handheld and (orientation: portrait) {
   .main_content {
     margin-left: 0;
     margin-right: 0;
