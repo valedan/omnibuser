@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919111248) do
+ActiveRecord::Schema.define(version: 20160919094109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,9 +50,8 @@ ActiveRecord::Schema.define(version: 20160919111248) do
   create_table "scraper_queues", force: :cascade do |t|
     t.string   "domain"
     t.datetime "last_access"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "queue",       default: [],              array: true
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "stories", force: :cascade do |t|

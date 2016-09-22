@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+ScraperQueue.create(domain: "fanfiction.net", last_access: Time.now)
+ScraperQueue.create(domain: "fictionpress.com", last_access: Time.now)
+ScraperQueue.create(domain: "forums.sufficientvelocity.com", last_access: Time.now)
+ScraperQueue.create(domain: "forums.spacebattles.com", last_access: Time.now)
+ScraperQueue.create(domain: "forum.questionablequesting.com", last_access: Time.now)

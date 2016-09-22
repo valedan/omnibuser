@@ -1,7 +1,7 @@
 
 class Scraper
   include ActiveModel::Model
-  attr_accessor :url, :doc_id, :request
+  attr_accessor :url, :doc_id, :request, :root
 
   def self.create(url, request)
     unless url.blank?
@@ -11,7 +11,8 @@ class Scraper
     end
     @url += "/" unless @url.split('').last == "/"
     @request = request
-    determine_type.new(url: @url, request: @request)
+    root, scraper = determine_type
+    scraper.new(url: @url, request: @request, root: root)
   end
 
   def self.determine_type
@@ -21,9 +22,9 @@ class Scraper
                       "forums.spacebattles.com" => SVScraper,
                       "forum.questionablequesting.com" => QQScraper
                       }
-    @valid_domains.each_key do |domain|
-      if @url.include?(domain)
-        return @valid_domains[domain]
+    @valid_domains.each do |key, value|
+      if @url.include?(key)
+        return key, value
       end
     end
     raise ScraperError, "The website you entered is not currently supported. See the About page for a list of supported sites, or the Contact page to request support for a new site."
@@ -77,9 +78,9 @@ class Scraper
   end
 
   def get_page(url)
+    puts "\n\n\nRETRIEVING #{url} AT #{Time.now}\n\n\n"
     tries = 3
     begin
-      sleep(3)
       @agent.get(url)
     rescue Exception => e
       if tries > 0
@@ -92,26 +93,15 @@ class Scraper
   end
 
   def queue_page(url)
-    get_page(url)
-    # delay = 5
-    # domain = self.class.to_s
-    # queue = ScraperQueue.find_or_create_by(domain: domain) do |q|
-    #   q.queue = []
-    #   q.last_access = Time.now - delay.seconds
-    # end
-    # queue.add(self)
-    #
-    # until queue.first?(self)
-    #   sleep(0.1)
-    # end
-    #
-    # unless queue.last_access && queue.last_access < delay.seconds.ago
-    #   sleep(delay - (Time.now - queue.last_access))
-    # end
-    # page = get_page(url)
-    # queue.last_access = Time.now
-    # queue.remove(self)
-    # page
+    delay = 5
+    queue = ScraperQueue.find_by(domain: @root)
+    if Time.now - queue.last_access > delay
+      queue.update(last_access: Time.now)
+      get_page(url)
+    else
+      sleep(delay - (Time.now - queue.last_access) + rand)
+      queue_page(url)
+    end
   end
 
 
