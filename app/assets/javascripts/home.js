@@ -56,7 +56,6 @@ function startQueries(request) {
       console.log(request.complete);
       if (request.complete !== true) {
         if (request.current_chapters === null || request.total_chapters === null) {
-          //updateProgress(request.status);
         } else {
           updateProgress(request.current_chapters, request.total_chapters);
         }
@@ -118,13 +117,17 @@ function updateDownload(id){
 function initializeProgress(){
   $("#error-explanation").hide();
   $("#download").hide();
+  $(".progress-label").text( "Loading..." );
   $("#progressbar").show();
 
 
   $( "#progressbar" ).progressbar({
     value: false,
     change: function() {
-      $( ".progress-label" ).text( $( "#progressbar" ).progressbar( "value" ) + "/" + $( "#progressbar" ).progressbar( "option", "max" ) );
+      if ($( "#progressbar" ).progressbar( "value" ) !== false) {
+        $( ".progress-label" ).text( $( "#progressbar" ).progressbar( "value" ) + "/" + $( "#progressbar" ).progressbar( "option", "max" ) );
+      }
+
     },
     complete: function() {
       $( ".progress-label" ).text( "Complete!" );
