@@ -247,8 +247,8 @@ option{
 }
 .main_content{
   text-align: center;
-  margin-top:10%;
-  margin-bottom: 10%;
+  margin-top:150px;
+  margin-bottom: 150px;
   padding: 3em;
   //padding-top: 3em;
   margin-left: 15%;
@@ -407,4 +407,47 @@ p {
   font-size: 1.1em;
   text-align: left;
   line-height: 1.1;
+}
+
+ul{
+  word-wrap: break-word;
+
+}
+
+// Mobile adjustments
+@media (max-width: 600px) {
+  .main_content {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 1em;
+  }
+  #header{
+    text-align: center;
+  }
+  #header_logo_text{
+    margin:0;
+    float:none;
+    display: inline;
+    text-decoration: none;
+  }
+  #header_logo{
+    width:263px;
+    text-decoration: none;
+    float:none;
+    display: inline-block;
+
+  }
+  #tabs{
+    text-align:center;
+    float:none;
+    display: block;
+    margin: 0;
+
+  }
+}
+
+@media (max-width: 380px) {
+  ul{
+    padding-left: 5px;
+  }
 }
