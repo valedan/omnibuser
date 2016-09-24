@@ -3,33 +3,21 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready(function() {
-  console.log("ready fired");
   clearFeedback();
   enableInput();
   $("#q").val("");
   $("#request_form").on("ajax:success", function(e, data, status, xhr){
-    console.log("request success triggered");
-    console.log(e);
-    console.log(data);
-    console.log(status);
-    console.log(xhr);
     clearFeedback();
     disableInput();
     startQueries(xhr);
   }).on("ajax:error", function(e, xhr, status, error){
-    console.log("request fail triggered");
-    console.log(e);
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+
   })
 });
 
 
 function startQueries(request) {
   var request = jQuery.parseJSON(request.responseText);
-  console.log(request);
-  console.log(request.id);
   initializeProgress();
   $.ajax({
     url: '/scrape/' + request.id,
@@ -39,11 +27,6 @@ function startQueries(request) {
     enableInput();
     updateDownload(id);
   }).fail(function(jqXHR, textStatus, errorThrown){
-    //updateErrors("Sorry, something went wrong. Please try again.");
-    console.log("ajax fail results");
-    console.log(jqXHR);
-    console.log(textStatus);
-    console.log(errorThrown);
   });
   var interval = 1000;
   function checkStatus() {
@@ -52,8 +35,6 @@ function startQueries(request) {
       url: '/requests/' + request.id,
       dataType: 'json'
     }).always(function(request, status){
-      console.log(request);
-      console.log(request.complete);
       if (request.complete !== true) {
         if (request.current_chapters === null || request.total_chapters === null) {
         } else {
@@ -70,15 +51,6 @@ function startQueries(request) {
   }
   setTimeout(checkStatus, interval);
 }
-
-// $(function() {
-//   $("#download").on("click", "a", function(e) {
-//     e.preventDefault();
-//     console.log(this);
-//     console.log(this.href);
-//     $.post(this.href);
-//   });
-// });
 
 function disableInput(){
   $("#submit").hide();
@@ -130,7 +102,7 @@ function initializeProgress(){
 
     },
     complete: function() {
-      $( ".progress-label" ).text( "Complete!" );
+      $( ".progress-label" ).text( "Creating Ebook..." );
     }
   });
 }
