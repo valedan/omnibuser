@@ -9,7 +9,6 @@ class Story < ApplicationRecord
                            extension: ext)
 
     puts "story after doc create"
-    # DocumentCleanupJob.set(wait: 10.minutes).perform_later(@doc)
     @doc.id
   end
 end

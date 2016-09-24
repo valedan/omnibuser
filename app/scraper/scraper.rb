@@ -1,7 +1,7 @@
 
 class Scraper
   include ActiveModel::Model
-  attr_accessor :url, :doc_id, :request, :root
+  attr_accessor :url, :doc_id, :request, :queue
 
   def self.create(url, request)
     unless url.blank?
@@ -12,7 +12,7 @@ class Scraper
     @url += "/" unless @url.split('').last == "/"
     @request = request
     root, scraper = determine_type
-    scraper.new(url: @url, request: @request, root: root)
+    scraper.new(url: @url, request: @request, queue: ScraperQueue.find_by(domain: root))
   end
 
   def self.determine_type
@@ -78,7 +78,7 @@ class Scraper
   end
 
   def get_page(url)
-    puts "\n\n\nRETRIEVING #{url} AT #{Time.now}\n\n\n"
+    scraper_log("Retrieving page #{url}")
     tries = 3
     begin
       @agent.get(url)
@@ -92,14 +92,28 @@ class Scraper
     end
   end
 
+  def full_time
+    Time.now.strftime('%H:%M:%S::%N')
+  end
+
+  def scraper_log(string)
+    Rails.logger.warn("#{full_time} - #{@request.id} - #{string}")
+  end
+
   def queue_page(url)
-    delay = 5
-    queue = ScraperQueue.find_by(domain: @root)
-    if Time.now - queue.last_access > delay
-      queue.update(last_access: Time.now)
+  #  scraper_log("Beginning of queue_page for #{url}")
+    delay = 1
+    @queue.reload
+    scraper_log("Just reloaded queue - #{@queue.inspect}")
+    if Time.now - @queue.last_access > delay
+    #  scraper_log("First branch of conditional")
+      @queue.update(last_access: Time.now)
+      scraper_log("Updated queue - #{@queue.inspect}")
       get_page(url)
     else
-      sleep(delay - (Time.now - queue.last_access) + rand)
+  #    scraper_log("Second branch of conditional... sleeping")
+      sleep(delay - (Time.now - @queue.last_access) + rand)
+    #  scraper_log("Finished sleeping")
       queue_page(url)
     end
   end
