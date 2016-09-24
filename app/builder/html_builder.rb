@@ -4,6 +4,7 @@ class HTMLBuilder < DocBuilder
             <?xml version=\"1.0\" encoding=\"UTF-8\" ?>
             <html lang=\"en\">
             <head>
+            <style>p, span, i, b  {color: black !important;}</style>
             <meta http-equiv=\"content-type\" content=\"application/xhtml+xml; charset=UTF-8\" >
             <title>#{@doc.story.title}</title>
             </head>
