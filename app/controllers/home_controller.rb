@@ -1,6 +1,7 @@
 
 class HomeController < ApplicationController
   def index
+    @canonical = "http://omnibuser.com"
   end
 
   def download
