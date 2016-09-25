@@ -1,4 +1,8 @@
-
+<noscript>
+  <div id="noscript-warning">
+    <p> You browser appears to have Javascript disabled. This site requires Javascript enabled to function. Please enable Javascript and refresh the page to use the site.</p>
+  </div>
+</noscript>
 <div class="main_content">
   <h1>Convert your favourite online fiction into a convenient ebook!</h1>
 
@@ -18,14 +22,14 @@
   <% flash.each do |name, msg| -%>
   <%= content_tag :div, msg, class: name %>
   <% end -%>
-  <div id="progressbar">
+  <div id="progressbar" style="display: none;">
     <div class="progress-label">Loading...</div>
   </div>
 
   <div id="download">
   </div>
 
-  <div id="error-explanation">
+  <div id="error-explanation" style="display: none;">
     <div id="error-container"></div>
   </div>
 

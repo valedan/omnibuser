@@ -217,7 +217,8 @@ body{
 }
 
 //////////////
-#error-explanation{
+
+#error-explanation, #noscript-warning{
   color:#555;
 	border-radius:10px;
   width: 80%;
@@ -237,6 +238,11 @@ body{
 
 #error-explanation p{
   display: inline;
+}
+
+#noscript-warning{
+  margin-top: 120px;
+  margin-bottom: -100px;
 }
 
 option{
