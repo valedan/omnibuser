@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Omnibuser</title>
+    <title><%= @title || "Omnibuser"%></title>
+    <meta name="description" content="Omnibuser is an easy to use free tool that allows you to download online fanfiction and serial fiction in Ebook format."/>
+    <!--Share Image and title - linkedin / facebook / twitter / google plus-->
+  	<meta name="twitter:card" content="summary" />
+  	<meta property="og:title" content="Omnibuser">
+  	<meta property="og:type" content="website" />
+  	<meta property="og:image" content="images/omnibuser.png" />
+  	<meta property="og:description" content="Omnibuser is an easy to use free tool that allows you to download online fanfiction and serial fiction in Ebook format.">
+
     <%= csrf_meta_tags %>
     <link rel="icon" href="images/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
