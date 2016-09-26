@@ -23,7 +23,8 @@ class Document < ApplicationRecord
     when 'mobi'
       MOBIBuilder
     when 'epub'
-      EPUBBuilder
+    #  EPUBBuilder
+      HTMLBuilder
     when 'pdf'
       PDFBuilder
     end
