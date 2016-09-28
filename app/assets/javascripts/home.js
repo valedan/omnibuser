@@ -24,11 +24,10 @@ function startQueries(request) {
     type: "POST",
     dataType: "json"
   }).done(function(id){
-    enableInput();
-    updateDownload(id);
+
   }).fail(function(jqXHR, textStatus, errorThrown){
   });
-  var interval = 1000;
+  var interval = 2000;
   function checkStatus() {
     $.ajax({
       type: 'GET',
@@ -42,7 +41,10 @@ function startQueries(request) {
         }
         setTimeout(checkStatus, interval);
       } else{
-        if (request.status !== "Success") {
+        if (request.status == "Success") {
+          enableInput();
+          updateDownload(request.doc_id);
+        } else{
           enableInput();
           updateErrors(request.status);
         }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919094109) do
+ActiveRecord::Schema.define(version: 20160928190251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160919094109) do
     t.boolean  "complete"
     t.integer  "current_chapters"
     t.string   "extension"
+    t.integer  "doc_id"
     t.index ["story_id"], name: "index_requests_on_story_id", using: :btree
   end
 

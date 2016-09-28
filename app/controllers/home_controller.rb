@@ -29,13 +29,8 @@ class HomeController < ApplicationController
       begin
         @request = Request.find(params[:id])
         @request.update(complete: false, status: "In Progress")
-        @scraper = Scraper.create(@request.url, @request)
-        @story = @scraper.scrape
-        @request.update(story_id: @story.id)
-        @doc_id = @story.build(@request.extension)
-        @request.update(complete: true, status: "Success")
-        #
-        format.json {render json: @doc_id, status: :ok}
+        Resque.enqueue(Scraper, @request.id)
+        format.json {render json: @request, status: :ok}
       rescue ScraperError => e
         @request.update(complete: true, status: e)
         format.json {render json: @request, status: 422}

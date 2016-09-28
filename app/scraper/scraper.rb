@@ -1,7 +1,17 @@
 
 class Scraper
   include ActiveModel::Model
+  @queue = :scrape
   attr_accessor :url, :doc_id, :request, :queue
+
+  def self.perform(request_id)
+    #temp
+    request = Request.find(request_id)
+    story = self.create(request.url, request).scrape
+    request.update(story_id: story.id)
+    doc_id = story.build(request.extension)
+    request.update(doc_id: doc_id, complete: true, status: "Success")
+  end
 
   def self.create(url, request)
     unless url.blank?
