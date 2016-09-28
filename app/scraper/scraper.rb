@@ -2,7 +2,7 @@
 class Scraper
   include ActiveModel::Model
   @queue = :scrape
-  attr_accessor :url, :doc_id, :request, :queue
+  attr_accessor :url, :doc_id, :request, :squeue
 
   def self.perform(request_id)
     #temp
@@ -112,14 +112,14 @@ class Scraper
 
   def queue_page(url)
     delay = 1.5
-    @queue.reload
-    scraper_log("Just reloaded queue - #{@queue.inspect}")
-    if Time.now - @queue.last_access > delay
-      @queue.update(last_access: Time.now)
-      scraper_log("Updated queue - #{@queue.inspect}")
+    @squeue.reload
+    scraper_log("Just reloaded queue - #{@squeue.inspect}")
+    if Time.now - @squeue.last_access > delay
+      @squeue.update(last_access: Time.now)
+      scraper_log("Updated queue - #{@squeue.inspect}")
       get_page(url)
     else
-      sleep(delay - (Time.now - @queue.last_access) + rand)
+      sleep(delay - (Time.now - @squeue.last_access) + rand)
       queue_page(url)
     end
   end
