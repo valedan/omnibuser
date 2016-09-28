@@ -22,7 +22,7 @@ class Scraper
     @url += "/" unless @url.split('').last == "/"
     @request = request
     root, scraper = determine_type
-    scraper.new(url: @url, request: @request, queue: ScraperQueue.find_by(domain: root))
+    scraper.new(url: @url, request: @request, squeue: ScraperQueue.find_by(domain: root))
   end
 
   def self.determine_type
