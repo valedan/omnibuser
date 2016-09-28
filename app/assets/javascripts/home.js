@@ -43,7 +43,8 @@ function startQueries(request) {
       } else{
         if (request.status == "Success") {
           enableInput();
-          updateDownload(request.doc_id);
+          updateDownload(request.id);
+          //updateDownload(request.doc_id);
         } else{
           enableInput();
           updateErrors(request.status);

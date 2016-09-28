@@ -9,8 +9,9 @@ class Scraper
     request = Request.find(request_id)
     story = self.create(request.url, request).scrape
     request.update(story_id: story.id)
-    doc_id = story.build(request.extension)
-    request.update(doc_id: doc_id, complete: true, status: "Success")
+    #doc_id = story.build(request.extension)
+    #request.update(doc_id: doc_id, complete: true, status: "Success")
+    request.update(complete: true, status: "Success")
   end
 
   def self.create(url, request)

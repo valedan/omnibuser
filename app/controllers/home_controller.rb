@@ -5,15 +5,20 @@ class HomeController < ApplicationController
   end
 
   def download
-    begin
-      @doc = Document.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-    end
-    if @doc && File.exist?(@doc.path)
-      send_file(@doc.path)
-    else
-      redirect_to root_path
-    end
+    request = Request.find(params[:id])
+    story = Story.find(request.story_id)
+    doc_id = story.build(request.extension)
+    @doc = Document.find(doc_id)
+    send_file(@doc.path)
+    # begin
+    #   @doc = Document.find(params[:id])
+    # rescue ActiveRecord::RecordNotFound
+    # end
+    # if @doc && File.exist?(@doc.path)
+    #   send_file(@doc.path)
+    # else
+    #   redirect_to root_path
+    # end
   end
 
   def status
