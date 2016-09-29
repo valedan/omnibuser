@@ -4,7 +4,7 @@ gem 'mechanize', '~> 2.7'
 gem 'pdfkit', '~> 0.8'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'
 gem "resque", "~> 1.22.0"
-gem 'rack-timeout'
+gem 'aws-sdk'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
 # Use postgresql as the database for Active Record
@@ -36,6 +36,7 @@ gem 'redis'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'rack-timeout'
   gem 'byebug', platform: :mri
 end
 
