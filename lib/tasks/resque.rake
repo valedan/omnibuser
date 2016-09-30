@@ -1,5 +1,11 @@
 require 'resque/tasks'
 
+task "resque:pool:setup" do
+  Resque::Pool.after_prefork do |job|
+    Resque.redis.client.reconnect
+  end
+end
+
 if Rails.env.production?
   task "resque:setup" => :environment do
     ENV['QUEUE'] = '*'
@@ -9,4 +15,6 @@ if Rails.env.production?
 
   desc "Alias for resque:work (To run workers on Heroku)"
   task "jobs:work" => "resque:work"
+else
+  task 'resque:setup' => :environment
 end
