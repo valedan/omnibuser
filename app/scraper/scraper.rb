@@ -6,12 +6,16 @@ class Scraper
 
   def self.perform(request_id)
     #temp
-    request = Request.find(request_id)
-    story = self.create(request.url, request).scrape
-    request.update(story_id: story.id)
-    #doc_id = story.build(request.extension)
-    #request.update(doc_id: doc_id, complete: true, status: "Success")
-    request.update(complete: true, status: "Success")
+    begin
+      request = Request.find(request_id)
+      story = self.create(request.url, request).scrape
+      request.update(story_id: story.id)
+      doc_id = story.build(request.extension)
+      request.update(doc_id: doc_id, complete: true, status: "Success")
+    rescue Exception => e
+      request.update(complete: true, status: e)
+      raise e
+    end
   end
 
   def self.create(url, request)

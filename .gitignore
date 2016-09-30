@@ -23,3 +23,5 @@
 # 3rd party tools
 #/lib/kindlegen
 #/lib/pandoc
+
+/config/initializers/dev_env.rb
