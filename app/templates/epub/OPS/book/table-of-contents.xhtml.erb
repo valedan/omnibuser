@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+	<head>
+		<meta charset='utf-8' />
+		<title><%= html_escape(@story.title) %></title>
+		<link href='../css/main.css' rel='stylesheet'/>
+		<link href='../css/<%=@domain%>.css' rel='stylesheet'/>
+
+	</head>
+	<body>
+		<nav style='margin-left:10px;padding-left:10px' epub:type='toc'>
+			<h1 class='omni-title'><b>Contents</b></h1>
+			<ol class='contents-list'>
+				<% @story.chapters.order(:number).each do |chapter|%>
+		      <li><a href="Chapter_<%=chapter.number.to_s.rjust(3, '0')%>.xhtml"><%= html_escape(chapter.title) %></a></li>
+		    <% end %>
+			</ol>
+		</nav>
+	</body>
+</html>

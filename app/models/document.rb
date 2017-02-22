@@ -5,7 +5,6 @@ class Document < ApplicationRecord
   before_destroy :delete_file
 
   def sanitize_filename
-    puts "in sanitize_filename"
     self.filename.gsub!(/[^\w]/, '_')
   end
 
@@ -18,16 +17,14 @@ class Document < ApplicationRecord
   end
 
   def build
-    puts "build start"
-    puts self.inspect
     builder = case extension
     when 'html'
+      self.extension = 'zip'
       HTMLBuilder
     when 'mobi'
       MOBIBuilder
     when 'epub'
-    #  EPUBBuilder
-      HTMLBuilder
+      EPUBBuilder
     when 'pdf'
       PDFBuilder
     end
@@ -36,17 +33,11 @@ class Document < ApplicationRecord
   end
 
   def upload
-    puts "upload start"
-    puts self.inspect
-    puts path
-    obj = S3_BUCKET.objects[self.filename]
-    puts obj
+    obj = S3_BUCKET.objects["documents/#{self.filename}.#{self.extension}"]
     obj.write(
       file: path,
       acl: :public_read
     )
     self.update(aws_url: obj.public_url, aws_key: obj.key)
-    puts "upload finish"
-    puts self.inspect
   end
 end

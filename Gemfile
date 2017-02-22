@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
+gem 'rubyzip'
 gem 'mechanize', '~> 2.7'
 gem 'pdfkit', '~> 0.8'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'
-gem "resque", "~> 1.22.0"
+gem "resque", "~> 1.24.1"
 gem 'aws-sdk-v1'
 gem 'resque-pool'
+gem 'resque-web', require: 'resque_web'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
 # Use postgresql as the database for Active Record
@@ -16,6 +18,7 @@ gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'therubyracer'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -23,7 +26,7 @@ gem 'coffee-rails', '~> 4.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '~> 5.0.5'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'

@@ -1,0 +1,19 @@
+body{
+  font-family: Verdana,'Lucida Grande','Lucida Sans Unicode','Open Sans',Arial,sans-serif;
+  font-size: 1em;
+  line-height: 1.25;
+}
+
+.filler{
+  height: 30mm;
+}
+
+.omni-chapter-title{
+  text-align: center;
+  font-size: 200%;
+  font-weight: bold;
+}
+.omni-title{
+  font-size: 200%;
+  text-align: center;
+}

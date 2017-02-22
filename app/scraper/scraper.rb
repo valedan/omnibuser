@@ -87,6 +87,7 @@ class Scraper
                           title: get_story_title,
                           author: get_author,
                           meta_data: get_metadata)
+    get_cover_image
     chapter_urls = get_chapter_urls
     @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
     get_chapters(chapter_urls)

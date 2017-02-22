@@ -12,7 +12,7 @@
     <%= submit_tag("Get", class: 'button', id: 'submit', data: {disable_with: "Get"}) %>
     <br>
     <%= label_tag(:ext, "Select ebook file type:")%>
-    <%= select_tag(:ext, options_for_select(['html', 'mobi', 'pdf']), class:'dropdown') %>
+    <%= select_tag(:ext, options_for_select(['epub', 'html', 'mobi', 'pdf']), class:'dropdown') %>
     <% end %>
   </div>
 

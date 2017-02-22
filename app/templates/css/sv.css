@@ -1,0 +1,173 @@
+body{
+  color: rgb(230,230,230);
+  background-color: rgb(40,40,40);
+  font-family: 'Trebuchet MS',Helvetica,Arial,sans-serif;
+}
+
+.filler{
+  height: 30mm;
+  background-color: rgb(40,40,40);
+}
+
+a{
+  color: rgb(40,161,221);
+  text-decoration: none;
+}
+
+.contents-list{
+
+}
+
+.adv_accordion dt, .adv_tabs_noscript_title{
+  border-top: 1px solid rgb(48,75,101);
+  border-left: 1px solid rgb(48,75,101);
+  border-right: 1px solid rgb(48,75,101);
+  margin-bottom: 0;
+  margin-top: 10px;
+  margin-left: 0;
+  page-break-after: avoid;
+}
+
+.adv_accordion dd, .adv_tabs_noscript_content {
+  margin-left: 0;
+  margin-top: 0;
+  border: 1px solid rgb(48,75,101);
+  padding: 10px;
+  page-break-before: avoid;
+
+}
+
+
+blockquote{
+  margin: none;
+}
+
+.omni-chapter-title{
+  text-align: center;
+  font-size: 200%;
+  font-weight: bold;
+}
+.omni-title{
+  font-size: 200%;
+  text-align: center;
+}
+.omni-spoilerTextContainer{
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.SpoilerTitle{
+}
+
+.bbCodeSpoilerText{
+  border: 1px solid rgb(48,75,101);
+  padding: 10px;
+  margin-bottom :10px;
+
+}
+
+.bbCodeQuote{
+  padding: 20px;
+  margin-left: 20px;
+}
+.quoteContainer{
+  border: 1px dashed rgb(48,75,101);
+  padding: 10px;
+
+}
+
+img.mceSmilie,
+img.mceSmilieSprite {
+    vertical-align: text-bottom;
+    margin: 0 1px
+}
+img.mceSmilieSprite.mceSmilie1 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat 0px 0px
+}
+img.mceSmilieSprite.mceSmilie2 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -60px -21px
+}
+img.mceSmilieSprite.mceSmilie3 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px -42px
+}
+img.mceSmilieSprite.mceSmilie4 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -60px 0px
+}
+img.mceSmilieSprite.mceSmilie5 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px -21px
+}
+img.mceSmilieSprite.mceSmilie6 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px 0px
+}
+img.mceSmilieSprite.mceSmilie7 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -20px -21px
+}
+img.mceSmilieSprite.mceSmilie8 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -20px 0px
+}
+img.mceSmilieSprite.mceSmilie9 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -20px -42px
+}
+img.mceSmilieSprite.mceSmilie10 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat 0px -42px
+}
+img.mceSmilieSprite.mceSmilie11 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat 0px -21px
+}
+img.mceSmilieSprite.mceSmilie12 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -80px -42px
+}
+img.mceSmilieSprite.mceSmilie58 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px -84px
+}
+img.mceSmilieSprite.mceSmilie59 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px -126px
+}
+img.mceSmilieSprite.mceSmilie60 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -80px -126px
+}
+img.mceSmilieSprite.mceSmilie61 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -40px -63px
+}
+img.mceSmilieSprite.mceSmilie62 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -60px -63px
+}
+img.mceSmilieSprite.mceSmilie63 {
+    width: 18px;
+    height: 18px;
+    background: url('../images/xenforo-smilies-sprite.png') no-repeat -60px -42px
+}

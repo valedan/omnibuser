@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="en" unique-identifier="uid"
+  prefix="dc: http://purl.org/dc/elements/1.1/">
+
+<metadata xmlns:dc='http://purl.org/dc/elements/1.1/'>
+    <dc:identifier id='uid'><%= @story.url %></dc:identifier>
+    <dc:source id='src-id'> <%= @story.url %></dc:source>
+    <dc:title id='title'><%= html_escape(@story.title) %></dc:title>
+    <dc:description>Downloaded via omnibuser.com</dc:description>
+    <dc:subject>Web-Fic</dc:subject>
+    <dc:language>en</dc:language>
+    <dc:date><%= Time.now.utc.iso8601 %></dc:date>
+    <meta property="dcterms:modified"><%= Time.now.utc.iso8601 %></meta>
+    <dc:creator id='author'><%= html_escape(@story.author) %></dc:creator>
+  </metadata>
+
+  <manifest>
+
+
+    <!-- Book -->
+    <item media-type='application/xhtml+xml'    id='book-cover'            href='book/cover.xhtml'/>
+    <item media-type='application/xhtml+xml'    id='frontmatter'           href='book/frontmatter.xhtml'/>
+    <item media-type='application/xhtml+xml'    id='book-toc'              href='book/table-of-contents.xhtml' properties='nav'/>
+    <item media-type='application/x-dtbncx+xml' id='book-toc-ncx'          href='book/table-of-contents.ncx'/>
+
+    <% @story.chapters.order(:number).each do |chapter| %>
+    <% num = "#{chapter.number.to_s.rjust(3, '0')}" %>
+      <%= "<item id='chapter_#{num}' href='book/Chapter_#{num}.xhtml' media-type='application/xhtml+xml'/>" %>
+    <% end %>
+
+    <!-- CSS -->
+    <item media-type='text/css'                 id='css-main'               href='css/main.css'/>
+    <item media-type='text/css'                 id='css-custom'             href='css/<%=@domain%>.css'/>
+
+
+    <!-- Images -->
+    <% if @cover %>
+      <%= "<item media-type='image/#{@cover.extension}'   id='coverimage'           href='images/#{@cover.name}' properties='cover-image'/>" %>
+    <% else %>
+      <%= "<item media-type='image/png'                   id='coverimage'           href='images/#{@cover_name}.png' properties='cover-image'/>" %>
+    <% end %>
+
+    <% @story.images.where(cover: false).each_with_index do |image, index| %>
+      <%= "<item media-type='image/#{image.extension}'    id='image#{index}'           href='images/#{image.name}'/>" %>
+    <% end %>
+    <item media-type='image/png'    id='smilies'           href='images/xenforo-smilies-sprite.png'/>
+
+
+  </manifest>
+
+  <spine toc='book-toc-ncx'>
+
+
+    <itemref idref='book-cover' linear='no'/>
+    <itemref idref='frontmatter'/>
+    <itemref idref='book-toc'/>
+    <% @story.chapters.order(:number).each do |chapter| %>
+    <% num = "#{chapter.number.to_s.rjust(3, '0')}" %>
+      <%= "<itemref linear='yes' idref='chapter_#{num}'/>" %>
+    <% end %>
+
+  </spine>
+
+  <guide>
+    <reference type="cover" title="Cover Image" href="book/cover.xhtml"/>
+  </guide>
+</package>

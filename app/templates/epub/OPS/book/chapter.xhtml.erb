@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+		<meta charset='utf-8' />
+    <title><%= html_escape(@story.title) %></title>
+    <link href='../css/main.css' rel='stylesheet'/>
+    <link href='../css/<%=@domain%>.css' rel='stylesheet'/>
+  </head>
+  <body>
+    <section epub:type='chapter'>
+      <h1 id='c<%= @chapter.number %>' class='omni-chapter-title'><%= html_escape(@chapter.title) %></h1>
+      <hr />
+      <%= @chapter.epub %>
+    </section>
+  </body>
+</html>
