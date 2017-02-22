@@ -5,7 +5,12 @@ class Document < ApplicationRecord
   before_destroy :delete_file
 
   def sanitize_filename
-    self.filename.gsub!(/[^\w]/, '_')
+    self.filename.gsub!(/[^[:alpha:]]/, '_')
+    self.filename.gsub!(/_{2,}/, '_')
+    self.filename.gsub!(/^_/, '')
+    self.filename.gsub!(/_$/, '')
+    self.filename = self.filename.slice(0, 230)
+    puts self.filename
   end
 
   def path

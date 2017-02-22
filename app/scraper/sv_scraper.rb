@@ -1,6 +1,6 @@
 class SVScraper < Scraper
   def get_base_url
-    @url.match(/forums\.(sufficientvelocity|spacebattles)\.com\/threads\/.+\.\d+/)
+    @url.match(/(forums|forum)\.(sufficientvelocity|spacebattles|questionablequesting)\.com\/threads\/.+\.\d+/)
   end
 
   def get_metadata

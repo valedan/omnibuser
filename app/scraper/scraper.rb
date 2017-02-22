@@ -35,7 +35,7 @@ class Scraper
                       "fictionpress.com" => FFNScraper,
                       "forums.sufficientvelocity.com" => SVScraper,
                       "forums.spacebattles.com" => SVScraper,
-                      "forum.questionablequesting.com" => QQScraper
+                      "forum.questionablequesting.com" => SVScraper
                       }
     @valid_domains.each do |key, value|
       if @url.include?(key)
