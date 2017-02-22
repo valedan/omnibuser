@@ -1,0 +1,14 @@
+body{
+  font-size: 16pt;
+  padding: 20px 40px;
+}
+
+#omni-frontmatter-container, #omni-toc-container, .omni-chapter{
+  margin-bottom: 100px;
+  page-break-after: always;
+  page-break-before: always;
+}
+
+img{
+  margin: 20px;
+}

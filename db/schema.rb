@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929174442) do
+ActiveRecord::Schema.define(version: 20170112152157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(version: 20160929174442) do
     t.string   "aws_url"
     t.string   "aws_key"
     t.index ["story_id"], name: "index_documents_on_story_id", using: :btree
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.integer  "story_id"
+    t.string   "source_url"
+    t.string   "aws_url"
+    t.string   "filename"
+    t.string   "extension"
+    t.integer  "size"
+    t.boolean  "cover"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "aws_key"
+    t.index ["story_id"], name: "index_images_on_story_id", using: :btree
   end
 
   create_table "requests", force: :cascade do |t|

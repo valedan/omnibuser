@@ -21,6 +21,27 @@ class FFNScraper < Scraper
     @page.xpath("//a[starts-with(@href, '/u/')]").first.text.strip
   end
 
+  def get_cover_image
+    image = @page.search('.cimage')
+    return unless image[1]
+    parts = image[1]['src'].split('/')
+    parts[-1] = '180/'
+    url = parts.join('/')
+    begin
+      src = @agent.get(url)
+    rescue Exception => e
+      puts e
+    end
+    if src
+      image = Image.create(story_id: @story.id,
+                           extension: src['content-type'].split('/')[-1],
+                           source_url: url,
+                           cover: true)
+      src.save(image.path)
+      image.upload
+    end
+  end
+
   def get_chapter_urls
     unless @page.css("#chap_select").empty?
       @page.at_css("#chap_select").css("option").map do |option|
@@ -36,7 +57,7 @@ class FFNScraper < Scraper
     title = ""
     options.each do |option|
       if option['selected']
-        title = option.text.strip
+        title = option.text.sub(/^\d+\./, '').strip
         break
       end
     end

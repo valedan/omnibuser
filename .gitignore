@@ -21,8 +21,8 @@
 #/public/images/*
 
 # 3rd party tools
-#/lib/kindlegen
-#/lib/pandoc
+/lib/kindlegen
+/lib/wkhtmltopdf
 
-/config/initializers/dev_env.rb
+/config/initializers/00_dev_env.rb
 dump.rdb

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+  <meta charset="utf-8" >
+  <title><%= html_escape(@story.title) %></title>
+  <link href='files/css/main.css' rel='stylesheet'/>
+  <link href='files/css/<%=@domain%>.css' rel='stylesheet'/>
+</head>
+<body>
+  <div id="omni-cover-container">
+    <% if @cover %>
+    <%= "<img id='cover-image' alt='Book Cover' src='files/images/#{@cover.name}'/>" %>
+    <% else %>
+    <%= "<img id='cover-image' alt='Book Cover' src='files/images/#{@cover_name}.png'/>" %>
+    <% end %>
+  </div>
+
+  <div id="omni-frontmatter-container">
+    <h1 class='omni-title'><b><%= @story.title %></b></h1>
+    <h3 class= 'omni-subtitle'>by <em><%= @story.author %></em></h3>
+    <br />
+    <ul>
+      <% JSON.parse(@doc.story.meta_data).each_pair do |name, data| %>
+      <li> <strong><%= name.capitalize %>:</strong> <%= data %></li>
+      <li><strong>Source:</strong> <a href="http://<%=@story.url%>"><%= @story.url %></a></li>
+      <li><strong>Downloaded with:</strong> <a href='http://omnibuser.com'>omnibuser.com</a></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div id="omni-toc-container">
+    <nav>
+			<h1 class='omni-title'><b>Contents</b></h1>
+			<ol class='contents-list'>
+				<% @story.chapters.order(:number).each do |chapter|%>
+		      <li><a href="#chap_<%= chapter.number %>"><%= html_escape(chapter.title) %></a></li>
+		    <% end %>
+			</ol>
+		</nav>
+  </div>
+
+  <div id="omni-story-container">
+    <% @story.chapters.order(:number).each do |chapter|%>
+      <div class="omni-chapter">
+        <h1 id="chap_<%= chapter.number %>" class='omni-chapter-title'><%= html_escape(chapter.title) %></h1>
+        <hr />
+        <%= chapter.html %>
+      </div>
+    <% end %>
+
+  </div>
+
+
+
+
+</body>
+</html>

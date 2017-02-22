@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='en' lang='en'>
+  <head>
+		<meta charset='utf-8' />
+    <title><%= html_escape(@story.title) %></title>
+    <link href='../css/main.css' rel='stylesheet'/>
+    <link href='../css/<%=@domain%>.css' rel='stylesheet'/>
+  </head>
+  <body>
+    <% if @cover %>
+      <%= "<img id='cover-image' alt='Book Cover' src='../images/#{@cover.name}'/>" %>
+    <% else %>
+      <%= "<img id='cover-image' alt='Book Cover' src='../images/#{@cover_name}.png'/>" %>
+    <% end %>
+
+  </body>
+</html>
