@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rubyzip'
+gem "mini_magick"
+gem 'image_optim'
+gem 'image_optim_pack'
 gem 'mechanize', '~> 2.7'
 gem 'pdfkit', '~> 0.8'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'

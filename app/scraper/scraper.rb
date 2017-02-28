@@ -49,7 +49,7 @@ class Scraper
     @base_url = get_base_url
     raise ScraperError, "Cannot find a story at url provided. Please recheck the url." unless @base_url
     @agent = Mechanize.new
-    @agent.user_agent = "Omnibuser 1.0 www.omnibuser.com"
+    @agent.user_agent = "Omnibuser 1.1 www.omnibuser.com"
     if story_exists?
       update_story
     else

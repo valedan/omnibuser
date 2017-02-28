@@ -4,6 +4,8 @@ class Story < ApplicationRecord
   has_many :images, dependent: :destroy
   has_many :requests
 
+  after_create :add_domain
+
   def build(ext)
     @doc = Document.create(story_id: self.id, filename: self.title,
                            extension: ext)
@@ -24,4 +26,21 @@ class Story < ApplicationRecord
     images.uniq!
     images.select{|i| !i.include?('styles/sv_smiles')}
   end
+
+  def add_domain
+    if    self.url.include?('fanfiction.net')
+      self.update(domain: 'ffn')
+    elsif self.url.include?('fictionpress.com')
+      self.update(domain: 'fp')
+    elsif self.url.include?('forums.sufficientvelocity.com')
+      self.update(domain: 'sv')
+    elsif self.url.include?('forums.spacebattles.com')
+      self.update(domain: 'sb')
+    elsif self.url.include?('forum.questionablequesting.com')
+      self.update(domain: 'qq')
+    else
+      nil
+    end
+  end
+
 end

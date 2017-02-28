@@ -23,6 +23,9 @@
 # 3rd party tools
 /lib/kindlegen
 /lib/wkhtmltopdf
+/lib/gifsicle
 
 /config/initializers/00_dev_env.rb
 dump.rdb
+
+/test/images

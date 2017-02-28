@@ -7,7 +7,7 @@ class EPUBBuilder < DocBuilder
     @template_dir = Rails.root.join("app", "templates", 'epub')
     @input = ["mimetype", "META-INF/container.xml", "OPS/package.opf", "OPS/book/table-of-contents.xhtml",
              "OPS/book/cover.xhtml", "OPS/book/frontmatter.xhtml", "OPS/book/table-of-contents.ncx"]
-    @domain = check_domain
+    @domain = @story.domain
     create_directory_structure
     create_mimetype
     create_meta_inf_container

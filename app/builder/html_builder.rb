@@ -7,7 +7,7 @@ class HTMLBuilder < DocBuilder
     @story = @doc.story
     @template_dir = Rails.root.join("app", "templates", 'html')
     @input = ["story.html"]
-    @domain = check_domain
+    @domain = @story.domain
     create_directory_structure
     add_styles
     create_cover

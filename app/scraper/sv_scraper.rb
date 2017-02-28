@@ -36,7 +36,19 @@ class SVScraper < Scraper
                            extension: src['content-type'].split('/')[-1],
                            source_url: url,
                            cover: cover)
-      src.save(image.path)
+      if @story.domain == 'sv'
+        background_color = '#282828'
+      elsif @story.domain == 'sb'
+        background_color = '#191F2D'
+      elsif @story.domain == 'qq'
+        background_color = '#EAEBEB'
+      end
+      unless url.include?('clear.png')
+        src.save("#{image.path}.temp")
+        image.compress(background_color)
+      else
+        src.save(image.path)
+      end
       image.upload
     end
     image&.name

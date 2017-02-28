@@ -15,6 +15,57 @@ class Image < ApplicationRecord
     "/tmp/#{self.name}"
   end
 
+  def self.run_compression_test
+    input_dir = Rails.root.join("test", "images", "input")
+    output_dir = Rails.root.join("test", "images", "output")
+
+    Dir.foreach(input_dir) do |file|
+      next if file == '.' || file == '..'
+      input =  Rails.root.join("#{input_dir}", file).to_s
+      output =  Rails.root.join("#{output_dir}", file).to_s
+      image = Image.create(story_id: 202,
+                           extension: input.split('.')[-1],
+                           source_url: 'test',
+                           cover: false,
+                           filename: "#{file.split('.')[0]}_50compressed")
+     if image.extension == 'gif'
+       output =  Rails.root.join("#{output_dir}", image.name).to_s
+       %x<#{Rails.root.join("lib", "gifsicle")} -O2 --lossy=80 #{input} -o #{output} >
+     else
+       i = MiniMagick::Image.open(input)
+       if image.extension == 'png'
+         i.background '#FFFFFF'
+         i.alpha 'remove'
+       end
+       i.format 'jpg'
+       i.quality 50
+       image.update(extension: 'jpg')
+       output =  Rails.root.join("#{output_dir}", image.name).to_s
+       i.write output
+     end
+    end
+
+  end
+
+  def compress(background_color="#FFFFFF")
+    input = "#{self.path}.temp"
+    if self.extension == 'gif'
+      output = self.path
+      %x<#{Rails.root.join("lib", "gifsicle")} -O2 --lossy=80 #{input} -o #{output} >
+    else
+      image = MiniMagick::Image.open(input)
+      if self.extension == 'png'
+        image.background background_color
+        image.alpha 'remove'
+      end
+      image.format 'jpg'
+      image.quality 50
+      self.update(extension: 'jpg')
+      output = self.path
+      image.write output
+    end
+  end
+
   def download(dir="/tmp")
     puts "Downloading image from AWS..."
     puts self.inspect
