@@ -64,12 +64,12 @@ class FFNScraper < Scraper
     title
   end
 
-  def get_chapters(chapter_urls, offset=0)
+  def get_chapters(chapter_urls)
     chapter_urls.each_with_index do |chapter, index|
       @page = queue_page(chapter) unless chapter == @page.uri
       Chapter.create(title: get_chapter_title,
                      content: get_chapter_content,
-                     number: index + 1 + offset,
+                     number: index + 1,
                      story_id: @story.id)
       @request.increment!(:current_chapters)
     end

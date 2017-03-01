@@ -1,4 +1,85 @@
 class SVScraper < Scraper
+
+  def get_story
+    #go to page 1 of story
+    #if there is link to reader mode
+      #if first post is threadmarked
+        #go to reader and get all posts
+      #else
+        #take first post, then go to reader and get all posts
+    #else
+      #legacy threadmark approach
+    @page = get_metadata_page
+    title = get_story_title
+    chapter_urls = get_chapter_urls
+    @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
+    @page = queue_page("https://#{@base_url}")
+    @story = Story.create(url: @base_url,
+                          title: title,
+                          author: get_author,
+                          meta_data: get_metadata)
+    get_cover_image
+    if reader_mode
+      puts "reader mode true"
+      first_post = @page.at_css('#messageList .message')
+      if first_post['class'].include?('hasThreadmark')
+        @page = queue_page("https://#{@base_url}/reader")
+        get_reader_chapters
+      else
+        create_chapter(first_post, 1, title: "Intro")
+        @page = queue_page("https://#{@base_url}/reader")
+        get_reader_chapters(2)
+      end
+    else
+      puts "reader mode false"
+      get_chapters(chapter_urls)
+    end
+
+  end
+
+  def get_reader_chapters(index=1)
+    @page.css(".message.hasThreadmark").each do |chapter|
+      create_chapter(chapter, index)
+      index += 1
+      @request.increment!(:current_chapters)
+    end
+    if next_page
+      @page = queue_page(next_page)
+      get_reader_chapters(index)
+    end
+  end
+
+  def next_page
+    @page.at_css('.PageNav nav').css('a').each do |a|
+      return absolute_url(a['href'], @page.uri) if a.text == "Next >"
+    end
+    false
+  end
+
+  def create_chapter(node, number, title: nil)
+    Chapter.create(title: title ||= get_chapter_title(node),
+                   content: get_chapter_content(node),
+                   number: number,
+                   story_id: @story.id)
+  end
+
+  def get_chapters(chapter_urls)
+    chapter_urls.uniq!
+    @index = 1
+    chapter_urls.each do |url|
+      @page = queue_page(url)
+      @page.css(".message.hasThreadmark").each do |chapter|
+        create_chapter(chapter, @index)
+        @index += 1
+        @request.increment!(:current_chapters)
+      end
+    end
+  end
+
+  def reader_mode
+    @page.at_css('.readerToggle')
+  end
+
   def get_base_url
     @url.match(/(forums|forum)\.(sufficientvelocity|spacebattles|questionablequesting)\.com\/threads\/.+\.\d+/)
   end
@@ -134,31 +215,7 @@ class SVScraper < Scraper
     content
   end
 
-  def chapter_exists?(chapter)
-    @cached_chapters && @cached_chapters.find_by(title: get_chapter_title(chapter))
-  end
 
-  def get_chapters(chapter_urls, offset=0)
-    @cached_chapters = @cached_story.chapters.all if offset > 0
-    chapter_urls.uniq!
-    @index = 1
-    chapter_urls.each do |url|
-      @page = queue_page(url)
-      get_cover_image if @story.cover_image.nil? && @index == 1
-      @story.update(author: get_author) if @story.author.blank?
-      @story.update(meta_data: get_metadata) if @story.meta_data.blank?
-      @page.css(".message.hasThreadmark").each do |chapter|
-        next if chapter_exists?(chapter)
-        Chapter.create(title: get_chapter_title(chapter),
-                       content: get_chapter_content(chapter),
-                       number: @index + offset,
-                       story_id: @story.id)
-        @index += 1
-        @request.increment!(:current_chapters)
-      end
-
-    end
-  end
 
 
 end

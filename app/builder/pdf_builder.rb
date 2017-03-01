@@ -5,12 +5,13 @@ class PDFBuilder < DocBuilder
     html_doc_path = HTMLBuilder.new(doc: @doc).build(nozip: true)
     @directory = "/tmp/#{@doc.filename}"
     @story = @doc.story
-    @domain = check_domain
+    @domain = @story.domain
     render_template('filler.html.erb', 'filler.html')
     filler_path = "#{@directory}/filler.html"
     pdf = PDFKit.new(File.open("#{html_doc_path}"), margin_top: 10, margin_bottom: 10,
                                                     margin_left: 0, margin_right: 0, quiet: false,
-                                                    header_html: filler_path, footer_html: filler_path)
+                                                    header_html: filler_path, footer_html: filler_path,
+                                                    load_error_handling: 'ignore')
     pdf.to_file(@doc.path)
     @doc.path
   end

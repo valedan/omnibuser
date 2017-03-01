@@ -50,36 +50,10 @@ class Scraper
     raise ScraperError, "Cannot find a story at url provided. Please recheck the url." unless @base_url
     @agent = Mechanize.new
     @agent.user_agent = "Omnibuser 1.1 www.omnibuser.com"
-    if story_exists?
-      update_story
-    else
-      get_story
-    end
+    get_story
     @story
   end
 
-  def story_exists?
-    @cached_story = Story.find_by("url LIKE ?", "%#{@base_url}%")
-  end
-
-  def update_story
-    @story = @cached_story
-    @page = get_metadata_page
-    live_chapters = get_chapter_urls
-    cached_chapters = @cached_story.chapters
-    @request.update(total_chapters: live_chapters.length, current_chapters: cached_chapters.length)
-
-    if cached_chapters.length == 0 || live_chapters.length == 1 || live_chapters.length < cached_chapters.length
-      if @story.created_at < 5.minutes.ago
-        @story.destroy
-        get_story
-      end
-    elsif cached_chapters.length < live_chapters.length
-      @story.update(meta_data: get_metadata)
-      live_chapters.shift(cached_chapters.length)
-      get_chapters(live_chapters, cached_chapters.length)
-    end
-  end
 
   def get_story
     @page = get_metadata_page
@@ -95,6 +69,7 @@ class Scraper
 
   def get_page(url)
     scraper_log("Retrieving page #{url}")
+    puts "Retrieving page #{url}"
     tries = 3
     begin
       @agent.get(url)

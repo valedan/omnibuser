@@ -59,6 +59,11 @@ class Image < ApplicationRecord
         image.alpha 'remove'
       end
       image.format 'jpg'
+      if image.width > 1000
+        new_width = 1000
+        new_height = (image.height * new_width)/image.width
+        image.resize "#{new_width}x#{new_height}"
+      end
       image.quality 50
       self.update(extension: 'jpg')
       output = self.path
