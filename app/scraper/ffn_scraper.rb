@@ -3,6 +3,23 @@ class FFNScraper < Scraper
     @url.match(/(fictionpress\.com|fanfiction\.net)\/s\/\d+\//)
   end
 
+  def get_story
+    @page = get_metadata_page
+    @story = Story.create(url: @base_url,
+                          title: get_story_title,
+                          author: get_author,
+                          meta_data: get_metadata)
+    get_cover_image
+    chapter_urls = get_chapter_urls
+    if @request.strategy == 'recent'
+      offset = chapter_urls.length - @request.recent_number
+      chapter_urls = chapter_urls.last(@request.recent_number)
+    end
+    offset = 0 unless offset && offset > 0
+    @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
+    get_chapters(chapter_urls, offset: offset)
+  end
+
   def get_metadata
     summary = @page.at_css("#profile_top div.xcontrast_txt").text
     meta = @page.at_css("#profile_top span.xgray.xcontrast_txt").text
@@ -64,12 +81,12 @@ class FFNScraper < Scraper
     title
   end
 
-  def get_chapters(chapter_urls)
+  def get_chapters(chapter_urls, offset: 0)
     chapter_urls.each_with_index do |chapter, index|
       @page = queue_page(chapter) unless chapter == @page.uri
       Chapter.create(title: get_chapter_title,
                      content: get_chapter_content,
-                     number: index + 1,
+                     number: index + offset + 1,
                      story_id: @story.id)
       @request.increment!(:current_chapters)
     end

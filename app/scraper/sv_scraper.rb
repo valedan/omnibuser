@@ -1,40 +1,67 @@
 class SVScraper < Scraper
 
   def get_story
-    #go to page 1 of story
-    #if there is link to reader mode
-      #if first post is threadmarked
-        #go to reader and get all posts
-      #else
-        #take first post, then go to reader and get all posts
-    #else
-      #legacy threadmark approach
     @page = get_metadata_page
     title = get_story_title
     chapter_urls = get_chapter_urls
-    @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
+    chapter_urls_with_dates = get_chapter_urls_with_dates
     @page = queue_page("https://#{@base_url}")
     @story = Story.create(url: @base_url,
                           title: title,
                           author: get_author,
                           meta_data: get_metadata)
     get_cover_image
-    if reader_mode
-      puts "reader mode true"
-      first_post = @page.at_css('#messageList .message')
-      if first_post['class'].include?('hasThreadmark')
-        @page = queue_page("https://#{@base_url}/reader")
-        get_reader_chapters
+    if @request.strategy == 'all'
+      @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
+      if reader_mode
+        puts "reader mode true"
+        first_post = @page.at_css('#messageList .message')
+        if first_post['class'].include?('hasThreadmark')
+          @page = queue_page("https://#{@base_url}/reader")
+          get_reader_chapters
+        else
+          create_chapter(first_post, 1, title: "Intro")
+          @page = queue_page("https://#{@base_url}/reader")
+          get_reader_chapters(2)
+        end
       else
-        create_chapter(first_post, 1, title: "Intro")
-        @page = queue_page("https://#{@base_url}/reader")
-        get_reader_chapters(2)
+        puts "reader mode false"
+        get_chapters(chapter_urls)
       end
-    else
-      puts "reader mode false"
-      get_chapters(chapter_urls)
+    elsif @request.strategy == 'recent'
+      chapter_urls, offset = recent_urls(chapter_urls_with_dates, @request.recent_number)
+      @request.update(total_chapters: chapter_urls.count, current_chapters: 0)
+      offset = 1 if offset < 1
+      get_recent_chapters(chapter_urls, offset)
     end
+  end
 
+  def get_recent_chapters(chapter_urls, offset)
+    chapter_urls.each do |url|
+      chunks = url.split('#')
+      post_id = chunks[1] if chunks[1]
+      @page = queue_page(url)
+      if post_id
+        node = @page.at_css("##{post_id}")
+      else
+        node = @page.at_css('.message.hasThreadmark')
+      end
+      create_chapter(node, offset)
+      offset += 1
+      @request.increment!(:current_chapters)
+    end
+  end
+
+  def recent_urls(urls, number)
+    return urls.sort{|a, b| a[1] <=> b[1]}.last(number).map{|x| x[0]}, urls.length - @request.recent_number + 1
+  end
+
+  def get_chapter_urls_with_dates
+    urls = []
+    @page.css(".overlayScroll.threadmarks li").each do |t|
+       urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
+    end
+    urls
   end
 
   def get_reader_chapters(index=1)
@@ -50,17 +77,38 @@ class SVScraper < Scraper
   end
 
   def next_page
+    return false unless @page.at_css('.PageNav nav')
     @page.at_css('.PageNav nav').css('a').each do |a|
       return absolute_url(a['href'], @page.uri) if a.text == "Next >"
     end
     false
   end
 
+  def get_publish_date(node)
+    date = node&.at_css('.messageInfo .messageMeta .datePermalink .DateTime')
+    if date
+      date.text&.to_date
+    else
+      nil
+    end
+  end
+
+  def get_edit_date(node)
+    date = node&.at_css('.messageInfo .editDate .DateTime')
+    if date
+      date['data-datestring']&.to_date
+    else
+      nil
+    end
+  end
+
   def create_chapter(node, number, title: nil)
     Chapter.create(title: title ||= get_chapter_title(node),
                    content: get_chapter_content(node),
                    number: number,
-                   story_id: @story.id)
+                   story_id: @story.id,
+                   publish_date: get_publish_date(node),
+                   edit_date: get_edit_date(node))
   end
 
   def get_chapters(chapter_urls)

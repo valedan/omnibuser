@@ -8,11 +8,19 @@
 
   <div id="form">
     <%= form_tag('/', remote: true, id: "request_form") do %>
-    <%= text_field_tag(:q) %>
-    <%= submit_tag("Get", class: 'button', id: 'submit', data: {disable_with: "Get"}) %>
-    <br>
-    <%= label_tag(:ext, "Select ebook file type:")%>
-    <%= select_tag(:ext, options_for_select(['epub', 'html', 'mobi', 'pdf']), class:'dropdown') %>
+      <%= text_field_tag(:q) %>
+      <%= submit_tag("Get", class: 'button', id: 'submit', data: {disable_with: "Get"}) %>
+      <br>
+      <%= label_tag(:ext, "Select ebook file type:")%>
+      <%= select_tag(:ext, options_for_select(['epub', 'html', 'mobi', 'pdf']), class:'dropdown') %>
+      <br>
+      <%= radio_button_tag(:strategy, "all") %>
+      <%= label_tag(:strategy_all, "Get all chapters") %>
+      <br>
+      <%= radio_button_tag(:strategy, "recent") %>
+      <%= label_tag :strategy_recent do %>
+        Get most recent <%= select_tag(:recent_number, options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])) %> chapter(s)
+      <% end %>
     <% end %>
   </div>
 

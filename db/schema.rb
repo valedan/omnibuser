@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227112542) do
+ActiveRecord::Schema.define(version: 20170302153532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20170227112542) do
     t.integer  "number"
     t.string   "title"
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.date     "publish_date"
+    t.date     "edit_date"
     t.index ["story_id"], name: "index_chapters_on_story_id", using: :btree
   end
 
@@ -62,6 +64,8 @@ ActiveRecord::Schema.define(version: 20170227112542) do
     t.string   "extension"
     t.integer  "doc_id"
     t.string   "aws_url"
+    t.string   "strategy"
+    t.integer  "recent_number"
     t.index ["story_id"], name: "index_requests_on_story_id", using: :btree
   end
 

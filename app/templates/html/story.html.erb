@@ -31,8 +31,9 @@
   <div id="omni-toc-container">
     <nav>
 			<h1 class='omni-title'><b>Contents</b></h1>
-			<ol class='contents-list'>
-				<% @story.chapters.order(:number).each do |chapter|%>
+      <% chapters = @story.chapters.order(:number) %>
+			<ol start='<%= chapters.first.number %>' class='contents-list'>
+				<% chapters.each do |chapter|%>
 		      <li><a href="#chap_<%= chapter.number %>"><%= html_escape(chapter.title) %></a></li>
 		    <% end %>
 			</ol>

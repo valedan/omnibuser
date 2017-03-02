@@ -10,8 +10,9 @@
 	<body>
 		<nav style='margin-left:10px;padding-left:10px' epub:type='toc'>
 			<h1 class='omni-title'><b>Contents</b></h1>
-			<ol class='contents-list'>
-				<% @story.chapters.order(:number).each do |chapter|%>
+			<% chapters = @story.chapters.order(:number) %>
+			<ol start='<%= chapters.first.number %>' class='contents-list'>
+				<% chapters.each do |chapter|%>
 		      <li><a href="Chapter_<%=chapter.number.to_s.rjust(3, '0')%>.xhtml"><%= html_escape(chapter.title) %></a></li>
 		    <% end %>
 			</ol>

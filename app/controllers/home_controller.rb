@@ -48,7 +48,7 @@ class HomeController < ApplicationController
   end
 
   def new
-    @request = Request.create(url: params[:q], extension: params[:ext],  status: "Initializing")
+    @request = Request.create(url: params[:q], extension: params[:ext], strategy: params[:strategy], recent_number: params[:recent_number], status: "Initializing")
     respond_to do |format|
       format.json {render json: @request.to_json, status: :created}
     end
@@ -56,7 +56,7 @@ class HomeController < ApplicationController
 
   private
   def request_params
-    params.require(:q, :ext)
+    params.require(:q, :ext, :strategy, :recent_number)
   end
 
 end
