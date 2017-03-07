@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'redcarpet'
 gem 'rubyzip'
 gem "mini_magick"
 gem 'image_optim'

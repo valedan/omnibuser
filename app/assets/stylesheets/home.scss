@@ -330,8 +330,41 @@ label[for="ext"]{
   background-size:
     5px 5px,
     5px 5px,
-    1px 1.5em;
+    1px 60%;
   background-repeat: no-repeat;
+}
+
+#filetype-wrapper{
+	margin-top:15px;
+}
+
+#recent_number{
+	padding: 0.3em 1em 0.3em 1em;
+	outline: none;
+}
+
+.clearfix::after{
+	content: "";
+	clear: both;
+	display: table;
+}
+
+#strategy-wrapper{
+	margin-top: 10px;
+}
+
+#strategy-all-wrapper{
+	// float:left;
+	 display:inline-block;
+	// margin-left: 10%;
+	margin-right: 10px;
+}
+
+#strategy-recent-wrapper{
+	// float:right;
+	 display: inline-block;
+	// margin-right: 10%;
+	margin-left:10px;
 }
 
 select {
