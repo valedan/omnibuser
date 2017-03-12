@@ -252,11 +252,20 @@ option{
 #about-content{
   text-align: left;
 }
-.main_content{
+#form-wrapper{
+  margin-top: 100px;
   text-align: center;
-  margin-top:150px;
-  margin-bottom: 150px;
-  padding: 3em;
+
+}
+#release-notes-wrapper{
+  margin-bottom: 75px;
+  height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: 20px;
+}
+.main_content{
+  padding: 1em 3em;
   //padding-top: 3em;
   margin-left: 15%;
   margin-right: 15%;

@@ -3,7 +3,7 @@
     <p> You browser appears to have Javascript disabled. This site requires Javascript enabled to function. Please enable Javascript and refresh the page to use the site.</p>
   </div>
 </noscript>
-<div class="main_content">
+<div class="main_content" id="form-wrapper">
   <h1>Convert your favourite online fiction into a convenient ebook!</h1>
 
   <div id="form">
@@ -52,4 +52,16 @@
     <p> Enter a link to the story in the box above, select the file type you want for the ebook, and hit Get. See the About page for a list of supported sites.</p>
   </div>
 
+</div>
+
+<div class='main_content' id='release-notes-wrapper'>
+  <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML) %>
+  <% notes = Dir.glob("#{Rails.root.join("app", "views", "release-notes").to_s}/*") %>
+  <% notes.map!{|n| File.new(n)} %>
+  <% notes.sort!{|a, b| b.path.split('/')[-1].split('.')[0].to_i <=> a.path.split('/')[-1].split('.')[0].to_i} %>
+  <% notes.each do |note| %>
+    <div class="release-note">
+      <%= markdown.render(note.read).html_safe %>
+    </div>
+  <% end %>
 </div>
