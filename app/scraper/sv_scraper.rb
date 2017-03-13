@@ -136,7 +136,7 @@ class SVScraper < Scraper
     if @page.uri.to_s == "https://#{@base_url}/threadmarks"
       ""
     else
-      pub_date = @page.at_css(".message.hasThreadmark .primaryContent .messageMeta .datePermalink").text
+      pub_date = @page.at_css(".message .primaryContent .messageMeta .datePermalink").text
       {published: pub_date}.to_json
     end
 
