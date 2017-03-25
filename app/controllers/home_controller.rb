@@ -23,8 +23,6 @@ class HomeController < ApplicationController
 
   def status
     request = Request.find(params[:id])
-    pid = %x<resque list>
-    puts "\nPID: #{pid}\n"
     respond_to do |format|
       format.json {render json: request.to_json, status: :ok}
     end
