@@ -1,2 +1,3 @@
 ---
-'*': <%= WORKER_CONCURRENCY %>
+scrape: <%= WORKER_CONCURRENCY %>
+build: 1

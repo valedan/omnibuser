@@ -12,10 +12,11 @@ class HomeController < ApplicationController
     rescue ActiveRecord::RecordNotFound
     end
     if @doc
-      open(@doc.path, 'wb') do |file|
+      filename = "/tmp/#{SecureRandom.hex}.#{@doc.extension}"
+      open(filename, 'wb') do |file|
         file << open(@doc.aws_url).read
       end
-      send_file(@doc.path)
+      send_file(filename, filename: "#{@doc.filename}.#{@doc.extension}")
     else
       redirect_to root_path
     end
