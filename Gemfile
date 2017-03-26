@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'combine_pdf'
 gem 'redcarpet'
 gem 'rubyzip'
 gem "mini_magick"

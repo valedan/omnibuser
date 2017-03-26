@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+  <meta charset="utf-8" >
+  <title><%= html_escape(@story.title) %></title>
+  <link href='files/css/main.css' rel='stylesheet'/>
+  <link href='files/css/<%=@domain%>.css' rel='stylesheet'/>
+</head>
+<body>
+  <div id="omni-story-container">
+    <% @chapter_chunk.each do |chapter|%>
+      <div class="omni-chapter">
+        <h1 id="chap_<%= chapter.number %>" class='omni-chapter-title'><%= html_escape(chapter.title) %></h1>
+        <hr />
+        <%= chapter.html %>
+      </div>
+      <% unless chapter == @chapter_chunk.last %>
+        <div class='omni-spacer'>&nbsp;</div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class='omni-spacer'>&nbsp;</div>
+</body>
+</html>

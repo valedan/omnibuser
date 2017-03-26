@@ -3,10 +3,24 @@ body{
   padding: 20px 40px;
 }
 
-#omni-frontmatter-container, #omni-toc-container, .omni-chapter{
-  margin-bottom: 100px;
+#omni-frontmatter-container{
   page-break-after: always;
+}
+
+#omni-story-container{
+  page-break-after: always;
+}
+
+.omni-chapter{
   page-break-before: always;
+}
+
+.omni-spacer{
+  page-break-before: always;
+  margin: 0;
+  padding: 0;
+  height: 338.5mm;
+  width: 210mm;
 }
 
 img{
