@@ -21,10 +21,10 @@
     <br />
     <ul>
       <% JSON.parse(@doc.story.meta_data).each_pair do |name, data| %>
-      <li> <strong><%= name.capitalize %>:</strong> <%= data %></li>
+        <li> <strong><%= name.capitalize %>:</strong> <%= data %></li>
+      <% end %>
       <li><strong>Source:</strong> <a href="http://<%=@story.url%>"><%= @story.url %></a></li>
       <li><strong>Downloaded with:</strong> <a href='http://omnibuser.com'>omnibuser.com</a></li>
-      <% end %>
     </ul>
   </div>
 
