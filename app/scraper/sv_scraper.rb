@@ -173,8 +173,13 @@ class SVScraper < Scraper
         background_color = '#EAEBEB'
       end
       unless url.include?('clear.png')
-        src.save("#{image.path}.temp")
-        image.compress(background_color)
+        begin
+          src.save("#{image.path}.temp")
+          image.compress(background_color)
+        rescue Exception => e
+          puts e
+          src.save(image.path)
+        end
       else
         src.save(image.path)
       end
