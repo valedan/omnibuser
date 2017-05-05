@@ -2,6 +2,7 @@ require 'zip'
 include ERB::Util
 
 class HTMLBuilder < DocBuilder
+  attr_accessor :template_dir, :input, :domain
 
   def build(nozip: false)
     @story = @doc.story
@@ -27,7 +28,6 @@ class HTMLBuilder < DocBuilder
     Dir.mkdir("#{@directory}/files")
     Dir.mkdir("#{@directory}/files/css")
     Dir.mkdir("#{@directory}/files/images")
-
   end
 
   def add_styles

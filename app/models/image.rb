@@ -16,6 +16,8 @@ class Image < ApplicationRecord
   end
 
   def self.run_compression_test
+    #this method is not used in production and is purely for testing
+    #different compression strategies during development
     input_dir = Rails.root.join("test", "images", "input")
     output_dir = Rails.root.join("test", "images", "output")
 
@@ -72,8 +74,6 @@ class Image < ApplicationRecord
   end
 
   def download(dir="/tmp")
-    puts "Downloading image from AWS..."
-    puts self.inspect
     open("#{dir}/#{self.name}", 'wb') do |file|
       file << open(self.aws_url).read
     end

@@ -267,8 +267,4 @@ class SVScraper < Scraper
     end
     content
   end
-
-
-
-
 end

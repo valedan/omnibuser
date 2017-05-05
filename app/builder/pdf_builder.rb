@@ -1,6 +1,7 @@
 include ERB::Util
 
 class PDFBuilder < HTMLBuilder
+  attr_accessor :template_dir, :input, :domain, :files
 
   def build
     @story = @doc.story
@@ -19,24 +20,6 @@ class PDFBuilder < HTMLBuilder
     combine_pdfs
   end
 
-  def combine_pdfs
-    pdf = CombinePDF.new
-    @files.each do |filename|
-      pdf << CombinePDF.load("#{@directory}/#{filename}.pdf")
-    end
-    pdf.save @doc.path
-  end
-
-  def convert_to_pdf
-    @files.each do |filename|
-      pdf = PDFKit.new(File.open("#{@directory}/#{filename}.html"), margin_top: 10, margin_bottom: 10,
-                                                      margin_left: 0, margin_right: 0, quiet: false,
-                                                      header_html: "#{@directory}/filler.html", footer_html: "#{@directory}/filler.html",
-                                                      load_error_handling: 'ignore')
-      pdf.to_file("#{@directory}/#{filename}.pdf")
-    end
-  end
-
   def create_frontmatter
     render_template("../pdf/frontmatter.html.erb", "frontmatter.html")
   end
@@ -53,4 +36,23 @@ class PDFBuilder < HTMLBuilder
     end
   end
 
+  def convert_to_pdf
+    @files.each do |filename|
+      pdf = PDFKit.new(File.open("#{@directory}/#{filename}.html"),
+                  margin_top: 10, margin_bottom: 10,
+                  margin_left: 0, margin_right: 0, quiet: true,
+                  header_html: "#{@directory}/filler.html",
+                  footer_html: "#{@directory}/filler.html",
+                  load_error_handling: 'ignore')
+      pdf.to_file("#{@directory}/#{filename}.pdf")
+    end
+  end
+
+  def combine_pdfs
+    pdf = CombinePDF.new
+    @files.each do |filename|
+      pdf << CombinePDF.load("#{@directory}/#{filename}.pdf")
+    end
+    pdf.save @doc.path
+  end
 end

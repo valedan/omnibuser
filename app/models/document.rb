@@ -11,7 +11,6 @@ class Document < ApplicationRecord
     self.filename.gsub!(/_$/, '')
     self.filename = self.filename.slice(0, 230)
     add_chapter_numbers if self.story.request.strategy == 'recent'
-    puts self.filename
   end
 
   def add_chapter_numbers

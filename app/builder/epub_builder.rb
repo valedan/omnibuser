@@ -2,6 +2,7 @@ require 'zip'
 include ERB::Util
 
 class EPUBBuilder < DocBuilder
+  attr_accessor :template_dir, :input, :domain
   def build
     @story = @doc.story
     @template_dir = Rails.root.join("app", "templates", 'epub')
@@ -61,8 +62,6 @@ class EPUBBuilder < DocBuilder
     FileUtils.cp("#{@template_dir}/#{path}", "#{@directory}/#{path}")
   end
 
-
-
   def create_cover
     @cover = @story.cover_image
     if @cover
@@ -112,6 +111,7 @@ class EPUBBuilder < DocBuilder
   end
 
   def zip_directory
+    #refactor to not use input array, and just recursively zip dir
     zip_name = "/tmp/#{@doc.filename}.epub"
     File.delete(zip_name) if File.exist?(zip_name)
     Zip::File.open(zip_name, Zip::File::CREATE) do |zipfile|

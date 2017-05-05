@@ -3,6 +3,8 @@ class DocBuilder
   attr_accessor :doc
 
   def build
+    #this is never used, as all subclasses override it
+    #consider deleting
     @file = File.new(@doc.path, 'w+')
     add_file_header
     add_file_frontmatter

@@ -21,6 +21,7 @@ class Story < ApplicationRecord
   end
 
   def list_images
+    #unused, untested, consider deleting
     images = []
     self.chapters.each {|chapter| chapter.xhtml.search('img').each {|i| images << i['src']} }
     images.uniq!

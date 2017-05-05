@@ -5,7 +5,6 @@ class Scraper
   attr_accessor :url, :doc_id, :request, :squeue
 
   def self.perform(request_id)
-    #temp
     begin
       request = Request.find(request_id)
       story = self.create(request.url, request).scrape

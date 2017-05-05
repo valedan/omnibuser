@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'colorscore'
 gem 'combine_pdf'
 gem 'redcarpet'
 gem 'rubyzip'
@@ -47,6 +48,19 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'rack-timeout'
   gem 'byebug', platform: :mri
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
+
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 3.1'
+
 end
 
 group :development do
