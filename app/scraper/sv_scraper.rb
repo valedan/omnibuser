@@ -178,11 +178,9 @@ class SVScraper < Scraper
           image.compress(background_color)
         rescue Exception => e
           puts e
-          src.save(image.path)
         end
-      else
-        src.save(image.path)
       end
+      src.save(image.path) unless File.exist?(image.path)
       image.upload
     end
     image&.name

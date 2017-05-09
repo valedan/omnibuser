@@ -2,7 +2,7 @@
 class Scraper
   include ActiveModel::Model
   @queue = :scrape
-  attr_accessor :url, :doc_id, :request, :squeue
+  attr_accessor :url, :doc_id, :request, :squeue, :agent, :story
 
   def self.perform(request_id)
     begin
