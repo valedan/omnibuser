@@ -3,9 +3,6 @@ require "resque_web"
 Rails.application.routes.draw do
   root 'home#index'
   post '/',              to: 'home#new'
-  post '/documents/:id', to: 'home#download'
-  get  '/documents/:id', to: 'home#download'
-  post  '/documents/:id', to: 'home#download'
   get  '/requests/:id',  to: 'home#status'
   post '/scrape/:id',    to: 'home#scrape'
 
@@ -13,5 +10,4 @@ Rails.application.routes.draw do
   get 'contact', to: 'static#contact'
 
   mount ResqueWeb::Engine => "/resque_web"
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
