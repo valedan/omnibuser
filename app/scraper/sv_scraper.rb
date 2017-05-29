@@ -58,7 +58,7 @@ class SVScraper < Scraper
 
   def get_chapter_urls_with_dates
     urls = []
-    @page.css(".overlayScroll.threadmarks li").each do |t|
+    @page.css(".overlayScroll.threadmarkList li").each do |t|
        urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
     end
     urls
@@ -210,13 +210,13 @@ class SVScraper < Scraper
   end
 
   def get_chapter_urls
-    @page.css(".threadmarkItem a").map do |t|
+    @page.css(".threadmarkListItem a").map do |t|
        "https://#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
     end
   end
 
   def get_chapter_title(chapter)
-    chapter.at_css(".threadmarker .label").text.split("Threadmark:")[1].strip
+    chapter.at_css(".threadmarker .label").text.split("Threadmarks:")[1].strip
   end
 
   def get_chapter_content(chapter)
