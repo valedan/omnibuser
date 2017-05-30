@@ -32,8 +32,8 @@ class Scraper
     @valid_domains = {"fanfiction.net" => FFNScraper,
                       "fictionpress.com" => FFNScraper,
                       "forums.sufficientvelocity.com" => SVScraper,
-                      "forums.spacebattles.com" => SVScraper,
-                      "forum.questionablequesting.com" => SVScraper
+                      "forums.spacebattles.com" => SBScraper,
+                      "forum.questionablequesting.com" => QQScraper
                       }
     @valid_domains.each do |key, value|
       if @url.include?(key)

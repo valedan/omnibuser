@@ -1,4 +1,4 @@
-class SVScraper < ForumScraper
+class SBScraper < ForumScraper
   def get_story
     @css = {post: '#messageList .message',
             threadmark: '.message.hasThreadmark',

@@ -1,0 +1,663 @@
+<!DOCTYPE HTML SYSTEM>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Brakeman Report</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript">
+    function toggle(context) {
+      var elem = document.getElementById(context);
+
+      if (elem.style.display != "block")
+        elem.style.display = "block";
+      else
+        elem.style.display = "none";
+
+      elem.parentNode.scrollIntoView();
+    }
+
+    $(document).ready(function() {
+      $('table').DataTable({
+        searching: false,
+        paging:    false,
+        info:      false
+      });
+    });
+  </script>
+  <style>
+    /* CSS style used for HTML reports */
+
+body {
+  font-family: sans-serif;
+  color: #161616;
+}
+
+a {
+  color: #161616;
+}
+
+p {
+  font-weight: bold;
+  font-size: 11pt;
+  color: #2D0200;
+ }
+
+ th {
+   background-color: #980905;
+   border-bottom: 5px solid #530200;
+   color: white;
+   font-size: 11pt;
+   padding: 1px 8px 1px 8px;
+ }
+
+ td {
+   border-bottom: 2px solid white;
+   font-family: monospace;
+   padding: 5px 8px 1px 8px;
+ }
+
+ table {
+   background-color: #FCF4D4;
+   border-collapse: collapse;
+ }
+
+ h1 {
+   color: #2D0200;
+   font-size: 14pt;
+ }
+
+ h2 {
+   color: #2D0200;
+   font-size: 12pt;
+ }
+
+ span.high-confidence {
+   font-weight:bold;
+   color: red;
+ }
+
+ span.med-confidence {
+ }
+
+ span.weak-confidence {
+   color:gray;
+ }
+
+ div.warning_message {
+   cursor: pointer;
+ }
+
+ div.warning_message:hover {
+   background-color: white;
+ }
+
+ table caption {
+   background-color: #FFE;
+   padding: 2px;
+ }
+
+ table.context {
+   margin-top: 5px;
+   margin-bottom: 5px;
+   border-left: 1px solid #90e960;
+   color: #212121;
+ }
+
+ tr.context {
+   background-color: white;
+ }
+
+ tr.first {
+   border-top: 1px solid #7ecc54;
+   padding-top: 2px;
+ }
+
+ tr.error {
+  background-color: #f4c1c1 !important
+ }
+
+ tr.near_error {
+  background-color: #f4d4d4 !important
+ }
+
+ tr.alt {
+   background-color: #e8f4d4;
+ }
+
+ td.context {
+   padding: 2px 10px 0px 6px;
+   border-bottom: none;
+ }
+
+ td.context_line {
+   padding: 2px 8px 0px 7px;
+   border-right: 1px solid #b3bda4;
+   border-bottom: none;
+   color: #6e7465;
+ }
+
+ pre.context {
+   margin-bottom: 1px;
+ }
+
+ .user_input {
+   background-color: #fcecab;
+ }
+
+ div.render_path {
+   display: none;
+   background-color: #ffe;
+   padding: 5px;
+   margin: 2px 0px 2px 0px;
+ }
+
+ div.template_name {
+   cursor: pointer;
+ }
+
+ div.template_name:hover {
+   background-color: white;
+ }
+
+  </style>
+</head>
+<body>
+
+<h1>Brakeman Report</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Application Path</th>
+      <th>Rails Version</th>
+      <th>Brakeman Version</th>
+      <th>Report Time</th>
+      <th>Checks Performed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/home/dan/Documents/omnibuser</td>
+      <td>5.0.1</td>
+      <td>3.6.2
+      <td>
+        2017-05-28 18:18:09 +0100<br><br>
+        1.002210094 seconds
+      </td>
+      <td>BasicAuth, BasicAuthTimingAttack, ContentTag, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, DynamicFinders, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONEncoding, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, MimeTypeDoS, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NestedAttributesBypass, NumberToCurrency, QuoteTableName, Redirect, RegexDoS, Render, RenderDoS, RenderInline, ResponseSplitting, RouteDoS, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionManipulation, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, StripTags, SymbolDoSCVE, TranslateBug, UnsafeReflection, ValidationRegex, WithoutProtection, XMLDoS, YAMLParsing</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<h2 id='summary'>Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Scanned/Reported</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Controllers</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Models</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Templates</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Errors</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Security Warnings</td>
+      <td>4 <span class='high-confidence'>(1)</span></td>
+    </tr>
+  
+    <tr>
+      <td>Ignored Warnings</td>
+      <td>0</td>
+    </tr>
+  
+  </tbody>
+</table>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>Warning Type</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td>Command Injection</td>
+      <td>2</td>
+    </tr>
+  
+    <tr>
+      <td>File Access</td>
+      <td>2</td>
+    </tr>
+  
+  </tbody>
+</table>
+<br>
+<h2>Security Warnings</h2>  
+<table>
+  <thead>
+    <tr>
+      <th>Confidence</th>
+      <th>Class</th>
+      <th>Method</th>
+      <th>Warning Type</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td><span class='high-confidence'>High</span></td>
+      <td>Image</td>
+      <td>Image.run_compression_test</td>
+      <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/command_injection/">Command Injection</a></td>
+      <td><div class='warning_message' onClick="toggle('context1');toggle('message1');toggle('full_message1')" ><span id='message1' style='display:block' >Possible command injection near line 35: `#{Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)} -O2 --lossy=80 #{Rail...</span><span id='full_message1' style='display:none'>Possible command injection near line 35: `#{Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)} -O2 --lossy=80 #{Rails.root.join(&quot;#{Rails.root.join(&quot;test&quot;, &quot;images&quot;, &quot;input&quot;)}&quot;, file).to_s} -o #{Rails.root.join(&quot;#{Rails.root.join(&quot;test&quot;, &quot;images&quot;, &quot;output&quot;)}&quot;, <span class="user_input">Image.create(:story_id =&gt; 202, :extension =&gt; Rails.root.join(&quot;#{Rails.root.join(&quot;test&quot;, &quot;images&quot;, &quot;input&quot;)}&quot;, file).to_s.split(&quot;.&quot;)[-1], :source_url =&gt; &quot;test&quot;, :cover =&gt; false, :filename =&gt; (&quot;#{file.split(&quot;.&quot;)[0]}_50compressed&quot;)).name</span>).to_s} `</span><table id='context1' class='context' style='display:none'><caption>app/models/image.rb</caption>      <thead style='display:none'>
+        <tr>
+          <th>line number</th>
+          <th>line content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>30</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>                           source_url: &#39;test&#39;,</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>31</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                           cover: false,</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>32</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                           filename: &quot;#{file.split(&#39;.&#39;)[0]}_50compressed&quot;)</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>33</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>     if image.extension == &#39;gif&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>34</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>       output =  Rails.root.join(&quot;#{output_dir}&quot;, image.name).to_s</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>35</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>       %x&lt;#{Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)} -O2 --lossy=80 #{input} -o #{output} &gt;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>36</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>     else</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>37</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>       i = MiniMagick::Image.open(input)</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>38</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>       if image.extension == &#39;png&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>39</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>         i.background &#39;#FFFFFF&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>40</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>         i.alpha &#39;remove&#39;</pre>
+            </td>
+          </tr>
+</tbody></table></div></td>
+    </tr>
+  
+    <tr>
+      <td><span class='med-confidence'>Medium</span></td>
+      <td>Image</td>
+      <td>compress</td>
+      <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/command_injection/">Command Injection</a></td>
+      <td><div class='warning_message' onClick="toggle('context2');toggle('message2');toggle('full_message2')" ><span id='message2' style='display:block' >Possible command injection near line 56: `#{<span class="user_input">Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)</span>} -O2 --lossy=80 #{&quot;#{s...</span><span id='full_message2' style='display:none'>Possible command injection near line 56: `#{<span class="user_input">Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)</span>} -O2 --lossy=80 #{&quot;#{self.path}.temp&quot;} -o #{self.path} `</span><table id='context2' class='context' style='display:none'><caption>app/models/image.rb</caption>      <thead style='display:none'>
+        <tr>
+          <th>line number</th>
+          <th>line content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>52</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>  def compress(background_color=&quot;#FFFFFF&quot;)</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>53</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    input = &quot;#{self.path}.temp&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>54</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    if self.extension == &#39;gif&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>55</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      output = self.path</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>56</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      %x&lt;#{Rails.root.join(&quot;lib&quot;, &quot;gifsicle&quot;)} -O2 --lossy=80 #{input} -o #{output} &gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>57</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    else</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>58</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      image = MiniMagick::Image.open(input)</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>59</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      if self.extension == &#39;png&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>60</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        image.background background_color</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>61</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        image.alpha &#39;remove&#39;</pre>
+            </td>
+          </tr>
+</tbody></table></div></td>
+    </tr>
+  
+    <tr>
+      <td><span class='med-confidence'>Medium</span></td>
+      <td>HomeController</td>
+      <td>download</td>
+      <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/file_access/">File Access</a></td>
+      <td><div class='warning_message' onClick="toggle('context3');toggle('message3');toggle('full_message3')" ><span id='message3' style='display:block' >Model attribute used in file name near line 16: open(&quot;/tmp/#{SecureRandom.hex}.#{Document.find(params...</span><span id='full_message3' style='display:none'>Model attribute used in file name near line 16: open(&quot;/tmp/#{SecureRandom.hex}.#{<span class="user_input">Document.find(params[:id]).extension</span>}&quot;, &quot;wb&quot;)</span><table id='context3' class='context' style='display:none'><caption>app/controllers/home_controller.rb</caption>      <thead style='display:none'>
+        <tr>
+          <th>line number</th>
+          <th>line content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>11</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>      @doc = Document.find(params[:id])</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>12</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    rescue ActiveRecord::RecordNotFound</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>13</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    end</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>14</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    if @doc</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>15</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      filename = &quot;/tmp/#{SecureRandom.hex}.#{@doc.extension}&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      open(filename, &#39;wb&#39;) do |file|</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>17</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        file &lt;&lt; open(@doc.aws_url).read</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>18</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      end</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      send_file(filename, filename: &quot;#{@doc.filename}.#{@doc.extension}&quot;)</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>20</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    else</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      redirect_to root_path</pre>
+            </td>
+          </tr>
+</tbody></table></div></td>
+    </tr>
+  
+    <tr>
+      <td><span class='med-confidence'>Medium</span></td>
+      <td>HomeController</td>
+      <td>download</td>
+      <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/file_access/">File Access</a></td>
+      <td><div class='warning_message' onClick="toggle('context4');toggle('message4');toggle('full_message4')" ><span id='message4' style='display:block' >Model attribute used in file name near line 19: send_file(&quot;/tmp/#{SecureRandom.hex}.#{Document.find(p...</span><span id='full_message4' style='display:none'>Model attribute used in file name near line 19: send_file(&quot;/tmp/#{SecureRandom.hex}.#{<span class="user_input">Document.find(params[:id]).extension</span>}&quot;, :filename =&gt; (&quot;#{Document.find(params[:id]).filename}.#{<span class="user_input">Document.find(params[:id]).extension</span>}&quot;))</span><table id='context4' class='context' style='display:none'><caption>app/controllers/home_controller.rb</caption>      <thead style='display:none'>
+        <tr>
+          <th>line number</th>
+          <th>line content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>14</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>    if @doc</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>15</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      filename = &quot;/tmp/#{SecureRandom.hex}.#{@doc.extension}&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      open(filename, &#39;wb&#39;) do |file|</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>17</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        file &lt;&lt; open(@doc.aws_url).read</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>18</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      end</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      send_file(filename, filename: &quot;#{@doc.filename}.#{@doc.extension}&quot;)</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>20</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    else</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      redirect_to root_path</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>22</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    end</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>23</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  end</pre>
+            </td>
+          </tr>
+</tbody></table></div></td>
+    </tr>
+  
+  </tbody>
+</table>
+</body></html>
