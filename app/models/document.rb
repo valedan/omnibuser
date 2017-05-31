@@ -47,11 +47,12 @@ class Document < ApplicationRecord
   end
 
   def upload
-    obj = S3_BUCKET.objects["documents/#{self.filename}.#{self.extension}"]
+    obj = S3_BUCKET.objects["documents/#{self.id}/#{self.filename}.#{self.extension}"]
     obj.write(
       file: path,
       acl: :public_read
     )
     self.update(aws_url: obj.public_url, aws_key: obj.key)
+    self.story.request.update(aws_url: obj.public_url)
   end
 end

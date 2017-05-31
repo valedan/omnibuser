@@ -115,7 +115,7 @@ describe Document do
       allow_any_instance_of(Document).to receive(:build)
       @doc = create(:document)
       FileUtils.touch(@doc.path)
-      @aws_object = S3_BUCKET.objects["documents/#{@doc.filename}.#{@doc.extension}"]
+      @aws_object = S3_BUCKET.objects["documents/#{@doc.id}/#{@doc.filename}.#{@doc.extension}"]
       @doc.upload
     end
     it "uploads document to documents folder on AWS" do

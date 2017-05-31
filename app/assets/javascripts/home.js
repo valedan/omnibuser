@@ -44,7 +44,7 @@ function startQueries(request) {
       } else{
         if (request.status == "Success") {
           enableInput();
-          updateDownload(request.doc_id);
+          updateDownload(request.aws_url);
           //updateDownload(request.doc_id);
         } else{
           enableInput();
@@ -81,12 +81,11 @@ function updateErrors(html){
   $("#error-container").append("<span>error: </span> <p>" + html + "</p>");
   $("#error-explanation").show();
 }
-function updateDownload(id){
+function updateDownload(aws_url){
   $("#error-explanation").hide();
   $("#progressbar").hide();
   $("#download").empty();
-  var href = location.origin + "/documents/" + id;
-  $("#download").append("<a class='button' id='downloadLink' href='" + href + "'> Download Ebook </a>");
+  $("#download").append("<a download class='button' id='downloadLink' href='" + aws_url + "'> Download Ebook </a>");
   $("#download").show();
 }
 

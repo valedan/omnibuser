@@ -6,22 +6,6 @@ class HomeController < ApplicationController
     @canonical = "http://omnibuser.com"
   end
 
-  def download
-    begin
-      @doc = Document.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-    end
-    if @doc
-      filename = "/tmp/#{SecureRandom.hex}.#{@doc.extension}"
-      open(filename, 'wb') do |file|
-        file << open(@doc.aws_url).read
-      end
-      send_file(filename, filename: "#{@doc.filename}.#{@doc.extension}")
-    else
-      redirect_to root_path
-    end
-  end
-
   def status
     request = Request.find(params[:id])
     respond_to do |format|
