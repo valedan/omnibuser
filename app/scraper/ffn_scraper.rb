@@ -1,4 +1,6 @@
 class FFNScraper < Scraper
+  @queue = :scrape
+
   def get_base_url
     @url.match(/(fictionpress\.com|fanfiction\.net)\/s\/\d+\//)
   end

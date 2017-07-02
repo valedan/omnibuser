@@ -19,7 +19,8 @@ class HomeController < ApplicationController
       begin
         @request = Request.find(params[:id])
         @request.update(complete: false, status: "In Progress")
-        Resque.enqueue(Scraper, @request.id)
+        @request.scrape
+        #Resque.enqueue(Scraper, @request.id)
         format.json {render json: @request, status: :ok}
       rescue ScraperError => e
         @request.update(complete: true, status: e)

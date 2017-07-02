@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'byebug'
 gem 'colorscore'
 gem 'combine_pdf'
 gem 'redcarpet'

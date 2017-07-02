@@ -2,45 +2,18 @@
 class Scraper
   include ActiveModel::Model
   @queue = :scrape
-  attr_accessor :url, :doc_id, :request, :squeue, :agent, :story
+  attr_accessor :url, :doc_id, :request, :squeue, :agent, :story, :target
 
   def self.perform(request_id)
     begin
       request = Request.find(request_id)
-      story = self.create(request.url, request).scrape
-      request.update(story_id: story.id)
+      story = self.new(url: request.url, request: request, target: request.target).scrape
+      request.update!(story_id: story.id)
       Resque.enqueue(DelayedBuilder, request.id)
     rescue Exception => e
       request.update(complete: true, status: e)
       raise e
     end
-  end
-
-  def self.create(url, request)
-    unless url.blank?
-      @url = url
-    else
-      raise ScraperError, "Please enter a URL"
-    end
-    @url += "/" unless @url.split('').last == "/"
-    @request = request
-    root, scraper = determine_type
-    scraper.new(url: @url, request: @request, squeue: ScraperQueue.find_by(domain: root))
-  end
-
-  def self.determine_type
-    @valid_domains = {"fanfiction.net" => FFNScraper,
-                      "fictionpress.com" => FFNScraper,
-                      "forums.sufficientvelocity.com" => SVScraper,
-                      "forums.spacebattles.com" => SBScraper,
-                      "forum.questionablequesting.com" => QQScraper
-                      }
-    @valid_domains.each do |key, value|
-      if @url.include?(key)
-        return key, value
-      end
-    end
-    raise ScraperError, "The website you entered is not currently supported. See the About page for a list of supported sites, or the Contact page to request support for a new site."
   end
 
   def scrape
@@ -78,17 +51,15 @@ class Scraper
 
   def queue_page(url)
     delay = 1.5
-    @squeue.reload
-    scraper_log("Just reloaded queue - #{@squeue.inspect}")
-    if Time.now - @squeue.last_access > delay
-      @squeue.update(last_access: Time.now)
-      scraper_log("Updated queue - #{@squeue.inspect}")
+    @target.reload
+    scraper_log("Just reloaded target - #{@target.inspect}")
+    if Time.now - @target.last_access > delay
+      @target.update!(last_access: Time.now)
+      scraper_log("Updated queue - #{@target.inspect}")
       get_page(url)
     else
-      sleep(delay - (Time.now - @squeue.last_access) + rand)
+      sleep(delay - (Time.now - @target.last_access) + rand)
       queue_page(url)
     end
   end
-
-
 end

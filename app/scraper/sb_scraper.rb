@@ -1,4 +1,5 @@
 class SBScraper < ForumScraper
+  @queue = :scrape
   def get_story
     @css = {post: '#messageList .message',
             threadmark: '.message.hasThreadmark',

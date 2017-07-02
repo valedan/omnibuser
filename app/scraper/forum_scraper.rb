@@ -1,4 +1,6 @@
 class ForumScraper < Scraper
+  @queue = :scrape
+
 
   def get_story
     @page = get_metadata_page

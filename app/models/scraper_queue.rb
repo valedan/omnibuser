@@ -1,4 +1,0 @@
-class ScraperQueue < ApplicationRecord
-  
-
-end
