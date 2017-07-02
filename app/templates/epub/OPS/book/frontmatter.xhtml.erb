@@ -12,8 +12,10 @@
     <h3 class= 'omni-subtitle'>by <em><%= @story.author %></em></h3>
     <br />
     <ul>
-      <% JSON.parse(@story.meta_data).each_pair do |name, data| %>
-        <li><strong><%= name.capitalize %>:</strong> <%= data %></li>
+      <% if @story.meta_data %>
+        <% JSON.parse(@story.meta_data).each_pair do |name, data| %>
+          <li><strong><%= name.capitalize %>:</strong> <%= data %></li>
+        <% end %>
       <% end %>
       <li><strong>Source:</strong> <a href="http://<%=@story.url%>"><%= @story.url %></a></li>
       <li><strong>Downloaded with:</strong> <a href='http://omnibuser.com'>omnibuser.com</a></li>

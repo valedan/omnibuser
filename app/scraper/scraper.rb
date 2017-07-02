@@ -2,7 +2,7 @@
 class Scraper
   include ActiveModel::Model
   @queue = :scrape
-  attr_accessor :url, :doc_id, :request, :squeue, :agent, :story, :target
+  attr_accessor :url, :doc_id, :request, :squeue, :agent, :story, :target, :offset
 
   def self.perform(request_id)
     begin
@@ -20,13 +20,12 @@ class Scraper
     @base_url = get_base_url
     raise ScraperError, "Cannot find a story at url provided. Please recheck the url." unless @base_url
     @agent = Mechanize.new
-    @agent.user_agent = "Omnibuser 1.1 www.omnibuser.com"
+    @agent.user_agent = "Omnibuser 1.2 www.omnibuser.com"
     get_story
     @story
   end
 
   def get_page(url)
-    scraper_log("Retrieving page #{url}")
     puts "Retrieving page #{url}"
     tries = 3
     begin
@@ -41,21 +40,11 @@ class Scraper
     end
   end
 
-  def full_time
-    Time.now.strftime('%H:%M:%S::%N')
-  end
-
-  def scraper_log(string)
-    Rails.logger.warn("#{full_time} - #{@request.id} - #{string}")
-  end
-
   def queue_page(url)
-    delay = 1.5
+    delay = 1.0
     @target.reload
-    scraper_log("Just reloaded target - #{@target.inspect}")
     if Time.now - @target.last_access > delay
       @target.update!(last_access: Time.now)
-      scraper_log("Updated queue - #{@target.inspect}")
       get_page(url)
     else
       sleep(delay - (Time.now - @target.last_access) + rand)

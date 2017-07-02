@@ -3,6 +3,7 @@ class ForumScraper < Scraper
 
 
   def get_story
+    @css = @target.target_data
     @page = get_metadata_page
     title = get_story_title
     chapter_urls = get_chapter_urls
@@ -17,7 +18,7 @@ class ForumScraper < Scraper
       @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
       if reader_mode
         puts "reader mode true"
-        first_post = @page.at_css(@css[:post])
+        first_post = @page.at_css(@css['post'])
         if first_post['class'].include?('hasThreadmark')
           @page = queue_page("https://#{@base_url}/reader")
           get_reader_chapters
@@ -46,7 +47,7 @@ class ForumScraper < Scraper
       if post_id
         node = @page.at_css("##{post_id}")
       else
-        node = @page.at_css(@css[:threadmark])
+        node = @page.at_css(@css['threadmark'])
       end
       create_chapter(node, offset)
       offset += 1
@@ -60,14 +61,14 @@ class ForumScraper < Scraper
 
   def get_chapter_urls_with_dates
     urls = []
-    @page.css(@css[:overlay_threadmark]).each do |t|
+    @page.css(@css['overlay_threadmark']).each do |t|
        urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
     end
     urls
   end
 
   def get_reader_chapters(index=1)
-    @page.css(@css[:threadmark]).each do |chapter|
+    @page.css(@css['threadmark']).each do |chapter|
       create_chapter(chapter, index)
       index += 1
       @request.increment!(:current_chapters)
@@ -87,7 +88,7 @@ class ForumScraper < Scraper
   end
 
   def get_publish_date(node)
-    date = node&.at_css(@css[:chapter_pub_date])
+    date = node&.at_css(@css['chapter_pub_date'])
     if date
       date.text&.to_date
     else
@@ -96,7 +97,7 @@ class ForumScraper < Scraper
   end
 
   def get_edit_date(node)
-    date = node&.at_css(@css[:chapter_edit_date])
+    date = node&.at_css(@css['chapter_edit_date'])
     if date
       date['data-datestring']&.to_date
     else
@@ -118,7 +119,7 @@ class ForumScraper < Scraper
     @index = 1
     chapter_urls.each do |url|
       @page = queue_page(url)
-      @page.css(@css[:threadmark]).each do |chapter|
+      @page.css(@css['threadmark']).each do |chapter|
         create_chapter(chapter, @index)
         @index += 1
         @request.increment!(:current_chapters)
@@ -138,7 +139,7 @@ class ForumScraper < Scraper
     if @page.uri.to_s == "https://#{@base_url}/threadmarks"
       ""
     else
-      pub_date = @page.at_css(@css[:story_pub_date]).text
+      pub_date = @page.at_css(@css['story_pub_date']).text
       {published: pub_date}.to_json
     end
 
@@ -146,7 +147,7 @@ class ForumScraper < Scraper
 
   def get_cover_image
     unless @page.uri.to_s == "https://#{@base_url}/threadmarks"
-      parts = @page.at_css(@css[:avatar])['src'].split('/')
+      parts = @page.at_css(@css['avatar'])['src'].split('/')
       return unless parts[-3]
       parts[-3] = 'l'
       url = "https://#{@page.uri.host}/#{parts.join('/')}"
@@ -207,22 +208,22 @@ class ForumScraper < Scraper
     if @page.uri.to_s == "https://#{@base_url}/threadmarks"
       ""
     else
-      @page.css(@css[:post]).first.attr("data-author")
+      @page.css(@css['post']).first.attr("data-author")
     end
   end
 
   def get_chapter_urls
-    @page.css(@css[:threadmark_list_item]).map do |t|
+    @page.css(@css['threadmark_list_item']).map do |t|
        "https://#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
     end
   end
 
   def get_chapter_title(chapter)
-    chapter.at_css(".threadmarker .label").text.split(@css[:chapter_threadmark_text])[1].strip
+    chapter.at_css(".threadmarker .label").text.split(@css['chapter_threadmark_text'])[1].strip
   end
 
   def get_chapter_content(chapter)
-    content = chapter.at_css(@css[:chapter_content])
+    content = chapter.at_css(@css['chapter_content'])
     content = absolutify_urls(content)
     content = get_images(content)
     content = content.to_xml

@@ -1,0 +1,48 @@
+forum.questionablequesting.com:
+    post: '#messageList .message'
+    threadmark: '.message.hasThreadmark'
+    overlay_threadmark: '.overlayScroll.threadmarks li'
+    chapter_pub_date: '.messageInfo .messageMeta .datePermalink .DateTime'
+    chapter_edit_date: '.messageInfo .editDate .DateTime'
+    story_pub_date: '.message .primaryContent .messageMeta .datePermalink'
+    avatar: '#messageList .message .avatar img'
+    threadmark_list_item: '.threadmarkItem a'
+    chapter_threadmark_text: 'Threadmark:'
+    chapter_content: '.messageContent .messageText'
+
+forums.sufficientvelocity.com:
+    post: '#messageList .message'
+    threadmark: '.message.hasThreadmark'
+    overlay_threadmark: '.ThreadmarkIndex .threadmarkList li'
+    chapter_pub_date: '.messageInfo .messageMeta .datePermalink .DateTime'
+    chapter_edit_date: '.messageInfo .editDate .DateTime'
+    story_pub_date: '.message .primaryContent .messageMeta .datePermalink'
+    avatar: '#messageList .message .avatar img'
+    threadmark_list_item: '.threadmarkListItem a'
+    chapter_threadmark_text: 'Threadmarks:'
+    chapter_content: '.messageContent .messageText'
+
+forums.spacebattles.com:
+    post: '#messageList .message'
+    threadmark: '.message.hasThreadmark'
+    overlay_threadmark: '.ThreadmarkIndex .threadmarkList li'
+    chapter_pub_date: '.messageInfo .messageMeta .datePermalink .DateTime'
+    chapter_edit_date: '.messageInfo .editDate .DateTime'
+    story_pub_date: '.message .primaryContent .messageMeta .datePermalink'
+    avatar: '#messageList .message .avatar img'
+    threadmark_list_item: '.threadmarkListItem a'
+    chapter_threadmark_text: 'Threadmarks:'
+    chapter_content: '.messageContent .messageText'
+
+parahumans.wordpress.com:
+    toc_url: https://parahumans.wordpress.com/table-of-contents/
+    title: Worm
+    author: Wildbow
+    cover_image_url: https://parahumans.files.wordpress.com/2012/08/skitter-cover-2-a.jpg?w=584&h=584
+    chapter_urls: '#content .entry-content a:not(.sd-button)'
+    chapter_content: '.entry-content'
+    chapter_title: '.entry-title'
+    content_filters:
+      - 'a:contains("Next Chapter")'
+      - 'a:contains("Last Chapter")'
+      - '.sharedaddy'
