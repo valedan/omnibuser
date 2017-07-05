@@ -49,7 +49,7 @@ class TOCScraper < Scraper
       else
         next
       end
-    end
+    end.compact
   end
 
   def get_chapters(chapter_urls)

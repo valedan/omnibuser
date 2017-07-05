@@ -46,3 +46,14 @@ parahumans.wordpress.com:
       - 'a:contains("Next Chapter")'
       - 'a:contains("Last Chapter")'
       - '.sharedaddy'
+
+unsongbook.com:
+    toc_url: http://unsongbook.com/
+    title: Unsong
+    author: 'Scott Alexander'
+    cover_image_url: http://unsongbook.com/wp-content/uploads/2016/01/icon2.png
+    chapter_urls: '.pjgm-postcontent a:not(.share-icon)'
+    chapter_content: '.pjgm-postcontent'
+    chapter_title: '.pjgm-posttitle'
+    content_filters:
+      - '.sharedaddy'
