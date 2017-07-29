@@ -155,40 +155,6 @@ class ForumScraper < Scraper
     end
   end
 
-  def scrape_image(url, cover: false)
-    begin
-      puts "Retrieving image at #{url}"
-      sleep(1)
-      src = @agent.get(url)
-    rescue Exception => e
-      puts e
-    end
-    if src&.class == Mechanize::Image
-      image = Image.create(story_id: @story.id,
-                           extension: src['content-type'].split('/')[-1],
-                           source_url: url,
-                           cover: cover)
-      if @story.domain == 'sv'
-        background_color = '#282828'
-      elsif @story.domain == 'sb'
-        background_color = '#191F2D'
-      elsif @story.domain == 'qq'
-        background_color = '#EAEBEB'
-      end
-      unless url.include?('clear.png')
-        begin
-          src.save("#{image.path}.temp")
-          image.compress(background_color)
-        rescue Exception => e
-          puts e
-        end
-      end
-      src.save(image.path) unless File.exist?(image.path)
-      image.upload
-    end
-    image&.name
-  end
-
   def get_metadata_page
     begin
       queue_page("https://#{@base_url}/threadmarks")
@@ -225,47 +191,6 @@ class ForumScraper < Scraper
   def get_chapter_content(chapter)
     content = chapter.at_css(@css['chapter_content'])
     content = absolutify_urls(content)
-    content = get_images(content)
-    content = content.to_xml
-    content
-  end
-
-  def get_images(content)
-    content.search('img').each do |img|
-      next if img['src'].blank?
-      duplicate = @story.has_image(absolute_url(img['src'], @page.uri))
-      if duplicate
-        img['src'] = "#{duplicate.name}"
-      else
-        image = scrape_image(absolute_url(img['src'], @page.uri))
-        img['src'] = "#{image}"
-      end
-    end
-    content
-  end
-
-  def absolute_url(url, reference)
-    url = url.split('#')
-    unless url[0]&.start_with?('http') || url[0].blank?
-      url[0] = "/#{url[0]}" unless url[0].start_with?('/')
-      new_uri = URI::Generic.build({scheme: reference.scheme,
-                                    host: reference.host,
-                                    path: url[0].split('?')[0],
-                                    query: url[0].split('?')[1],
-                                    fragment: url[1]})
-    end
-    if new_uri
-      new_uri.to_s
-    else
-      url.join('#')
-    end
-  end
-
-  def absolutify_urls(content)
-    content.search('a').each do |a|
-      next if a['href'].blank?
-      a['href'] = absolute_url(a['href'], @page.uri)
-    end
-    content
+    extract_images(content).to_xml
   end
 end

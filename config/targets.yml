@@ -1,4 +1,7 @@
 forum.questionablequesting.com:
+  scraper: 'ForumScraper'
+  data:
+    image_background: '#EAEBEB'
     post: '#messageList .message'
     threadmark: '.message.hasThreadmark'
     overlay_threadmark: '.overlayScroll.threadmarks li'
@@ -11,6 +14,9 @@ forum.questionablequesting.com:
     chapter_content: '.messageContent .messageText'
 
 forums.sufficientvelocity.com:
+  scraper: 'ForumScraper'
+  data:
+    image_background: '#282828'
     post: '#messageList .message'
     threadmark: '.message.hasThreadmark'
     overlay_threadmark: '.ThreadmarkIndex .threadmarkList li'
@@ -23,6 +29,9 @@ forums.sufficientvelocity.com:
     chapter_content: '.messageContent .messageText'
 
 forums.spacebattles.com:
+  scraper: 'ForumScraper'
+  data:
+    image_background: '#191F2D'
     post: '#messageList .message'
     threadmark: '.message.hasThreadmark'
     overlay_threadmark: '.ThreadmarkIndex .threadmarkList li'
@@ -35,6 +44,9 @@ forums.spacebattles.com:
     chapter_content: '.messageContent .messageText'
 
 parahumans.wordpress.com:
+  scraper: 'TOCScraper'
+  data:
+    image_background: '#fff'
     toc_url: https://parahumans.wordpress.com/table-of-contents/
     title: Worm
     author: Wildbow
@@ -48,6 +60,9 @@ parahumans.wordpress.com:
       - '.sharedaddy'
 
 unsongbook.com:
+  scraper: 'TOCScraper'
+  data:
+    image_background: '#fff'
     toc_url: http://unsongbook.com/
     title: Unsong
     author: 'Scott Alexander'
@@ -56,4 +71,21 @@ unsongbook.com:
     chapter_content: '.pjgm-postcontent'
     chapter_title: '.pjgm-posttitle'
     content_filters:
+      - '.sharedaddy'
+
+practicalguidetoevil.wordpress.com:
+  scraper: 'TOCScraper'
+  data:
+    image_background: '#fff'
+    toc_url: https://practicalguidetoevil.wordpress.com/table-of-contents/
+    title: A Practical Guide to Evil
+    author: 'ErraticErrata'
+    cover_image_url: http://orig02.deviantart.net/58b9/f/2016/131/4/b/catherine_foundling_by_sandara-da26nur.jpg
+    chapter_urls: '.entry-content ul li a'
+    chapter_content: '.entry-content'
+    chapter_title: '.entry-header .entry-title'
+    content_filters:
+      - '.wpcnt'
+      - '.sharedaddy'
+    toc_filters:
       - '.sharedaddy'

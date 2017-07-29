@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+yml = YAML.load(File.read(Rails.root.join('config', 'targets.yml')))
+
+yml.each do |y|
+  Target.create!(domain: y[0], scraper: y[1]['scraper'], target_data: y[1]['data'])
+end

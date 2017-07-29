@@ -24,21 +24,11 @@ class TOCScraper < Scraper
 
   def get_cover_image
     return unless @target_data['cover_image_url']
-    begin
-      src = @agent.get(@target_data['cover_image_url'])
-    rescue Exception => e
-      puts e
-      return
-    end
-    image = Image.create(story_id: @story.id,
-                         extension: src['content-type'].split('/')[-1],
-                         source_url: @target_data['cover_image_url'],
-                         cover: true)
-    src.save(image.path)
-    image.upload
+    scrape_image(@target_data['cover_image_url'], cover: true)
   end
 
   def get_chapter_urls
+    filter_nodes(@page, @target_data['toc_filters'])
     @page.css(@target_data['chapter_urls']).map do |url|
       if url['href'].include?(@target.domain)
         if url['href'].start_with?('http')
@@ -65,16 +55,11 @@ class TOCScraper < Scraper
 
   def get_chapter_content
     content = @page.at_css(@target_data['chapter_content'])
-    if @target_data['content_filters']
-      @target_data['content_filters'].each do |filter|
-        content.search(filter).each{|n| n.remove}
-      end
-    end
-    content.to_s
+    filter_nodes(content, @target_data['content_filters'])
+    extract_images(content).to_xml
   end
 
   def get_chapter_title
     @page.at_css(@target_data['chapter_title']).text
   end
-
 end

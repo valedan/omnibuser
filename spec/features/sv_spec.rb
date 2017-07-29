@@ -23,7 +23,7 @@ feature "Sufficient Velocity", js: true do
   end
   scenario "Scraping 10 chapters from a story with fewer than 10 chapters" do
     get_story large_images, extension: 'pdf', recent: true, count: 10
-    expect(page).to have_content('Download')
+    expect(page).to have_content('Download', wait: 100)
   end
   scenario "Scraping a story with no threadmark for first post" do
     get_story unthreadmarked_op, extension: 'epub'

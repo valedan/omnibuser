@@ -14,8 +14,8 @@ class Target < ApplicationRecord
   end
 
   def load_target_data
+    return if target_data
     yml = YAML.load(File.read(Rails.root.join('config', 'targets.yml')))
     self.update!(target_data: yml[domain])
   end
-
 end
