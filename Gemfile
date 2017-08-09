@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'byebug'
 gem 'colorscore'
 gem 'combine_pdf'
-gem 'redcarpet'
+gem 'redcarpet', '~> 3.3.4'
 gem 'rubyzip'
 gem "mini_magick"
 gem 'image_optim'

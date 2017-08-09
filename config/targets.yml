@@ -1,3 +1,28 @@
+fictionpress.com:
+  scraper: 'FFNScraper'
+  data:
+    image_background: '#fff'
+    summary: "#profile_top div.xcontrast_txt"
+    meta: "#profile_top span.xgray.xcontrast_txt"
+    title: "#profile_top .xcontrast_txt"
+    author: "//a[starts-with(@href, '/u/')]"
+    chapter_urls: "#chap_select"
+    chapter_titles: '#chap_select option'
+    chapter_content: "#storytext"
+
+fanfiction.net:
+  scraper: 'FFNScraper'
+  data:
+    image_background: '#fff'
+    summary: "#profile_top div.xcontrast_txt"
+    meta: "#profile_top span.xgray.xcontrast_txt"
+    title: "#profile_top .xcontrast_txt"
+    author: "//a[starts-with(@href, '/u/')]"
+    chapter_urls: "#chap_select"
+    chapter_titles: '#chap_select option'
+    chapter_content: "#storytext"
+
+
 forum.questionablequesting.com:
   scraper: 'ForumScraper'
   data:

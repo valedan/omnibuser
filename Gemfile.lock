@@ -189,7 +189,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    redcarpet (3.4.0)
+    redcarpet (3.3.4)
     redis (3.3.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -316,7 +316,7 @@ DEPENDENCIES
   puma (~> 3.0)
   rack-timeout
   rails (~> 5.0.0)
-  redcarpet
+  redcarpet (~> 3.3.4)
   redis
   resque (~> 1.24.1)
   resque-pool
@@ -338,4 +338,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.1
+   1.15.3
