@@ -22,7 +22,6 @@ fanfiction.net:
     chapter_titles: '#chap_select option'
     chapter_content: "#storytext"
 
-
 forum.questionablequesting.com:
   scraper: 'ForumScraper'
   data:
@@ -75,7 +74,7 @@ parahumans.wordpress.com:
     toc_url: https://parahumans.wordpress.com/table-of-contents/
     title: Worm
     author: Wildbow
-    cover_image_url: https://parahumans.files.wordpress.com/2012/08/skitter-cover-2-a.jpg?w=584&h=584
+    cover_image_url: https://parahumans.files.wordpress.com/2012/08/skitter-cover-2-a.jpg?w=1000
     chapter_urls: '#content .entry-content a:not(.sd-button)'
     chapter_content: '.entry-content'
     chapter_title: '.entry-title'
