@@ -11,7 +11,7 @@ $(document).ready(function() {
     disableInput();
     startQueries(xhr);
   }).on("ajax:error", function(e, xhr, status, error){
-
+    updateErrors(xhr.responseJSON.status);
   })
 
 });
@@ -45,7 +45,6 @@ function startQueries(request) {
         if (request.status == "Success") {
           enableInput();
           updateDownload(request.aws_url);
-          //updateDownload(request.doc_id);
         } else{
           enableInput();
           updateErrors(request.status);

@@ -20,7 +20,6 @@ class HomeController < ApplicationController
         @request = Request.find(params[:id])
         @request.update(complete: false, status: "In Progress")
         @request.scrape
-        #Resque.enqueue(Scraper, @request.id)
         format.json {render json: @request, status: :ok}
       rescue ScraperError => e
         @request.update(complete: true, status: e)
@@ -28,15 +27,21 @@ class HomeController < ApplicationController
       rescue Exception => e
         @request.update(complete: true, status: "Sorry, something went wrong.")
         format.json {render json: @request, status: 422}
-        raise e
       end
     end
   end
 
   def new
-    @request = Request.create(url: params[:q], extension: params[:ext], strategy: params[:strategy], recent_number: params[:recent_number], status: "Initializing")
     respond_to do |format|
-      format.json {render json: @request.to_json, status: :created}
+      begin
+        @request = Request.create(url: params[:q], extension: params[:ext], strategy: params[:strategy], recent_number: params[:recent_number], status: "Initializing")
+        format.json {render json: @request.to_json, status: :created}
+      rescue Exception => e
+        @request = Request.new
+        @request.status = e
+        @request.complete = true
+        format.json {render json: @request, status: 422}
+      end
     end
   end
 
