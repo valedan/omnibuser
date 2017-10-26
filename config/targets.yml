@@ -68,6 +68,20 @@ forums.spacebattles.com:
     chapter_threadmark_text: 'Threadmarks:'
     chapter_content: '.messageContent .messageText'
 
+alternatehistory.com:
+  scraper: 'ForumScraper'
+  data:
+    image_background: '#EAEBEB'
+    post: '#messageList .message'
+    threadmark: '.message.hasThreadmark'
+    overlay_threadmark: '.ThreadmarkIndex .threadmarkList li'
+    chapter_pub_date: '.message .datePermalink .DateTime'
+    chapter_edit_date: '.messageInfo .editDate .DateTime'
+    story_pub_date: '.message .datePermalink .DateTime'
+    threadmark_list_item: '.threadmarkListItem a'
+    chapter_threadmark_text: 'Threadmarks'
+    chapter_content: '.messageContent .messageText'
+
 parahumans.wordpress.com:
   scraper: 'TOCScraper'
   data:

@@ -7,7 +7,7 @@ class ForumScraper < Scraper
     title = get_story_title
     chapter_urls = get_chapter_urls
     chapter_urls_with_dates = get_chapter_urls_with_dates
-    @page = queue_page("https://#{@base_url}")
+    @page = queue_page(@base_url)
     @story = Story.create(url: @base_url,
                           title: title,
                           author: get_author,
@@ -16,18 +16,16 @@ class ForumScraper < Scraper
     if @request.strategy == 'all'
       @request.update(total_chapters: chapter_urls.length, current_chapters: 0)
       if reader_mode
-        puts "reader mode true"
         first_post = @page.at_css(@target_data['post'])
         if first_post['class'].include?('hasThreadmark')
-          @page = queue_page("https://#{@base_url}/reader")
+          @page = queue_page("#{@base_url}/reader")
           get_reader_chapters
         else
           create_chapter(first_post, 1, title: "Intro")
-          @page = queue_page("https://#{@base_url}/reader")
+          @page = queue_page("#{@base_url}/reader")
           get_reader_chapters(2)
         end
       else
-        puts "reader mode false"
         get_chapters(chapter_urls)
       end
     elsif @request.strategy == 'recent'
@@ -131,11 +129,11 @@ class ForumScraper < Scraper
   end
 
   def get_base_url
-    @url.match(/(forums|forum)\.(sufficientvelocity|spacebattles|questionablequesting)\.com\/threads\/.+\.\d+/)
+    @url.match(/.+\/threads\/.+\.\d+/)
   end
 
   def get_metadata
-    if @page.uri.to_s == "https://#{@base_url}/threadmarks"
+    if @page.uri.to_s == "#{@base_url}/threadmarks"
       ""
     else
       pub_date = @page.at_css(@target_data['story_pub_date']).text
@@ -145,18 +143,18 @@ class ForumScraper < Scraper
   end
 
   def get_cover_image
-    unless @page.uri.to_s == "https://#{@base_url}/threadmarks"
-      parts = @page.at_css(@target_data['avatar'])['src'].split('/')
-      return unless parts[-3]
+    unless @page.uri.to_s == "#{@base_url}/threadmarks"
+      parts = @page.at_css(@target_data['avatar'])['src'].split('/') if @target_data['avatar']
+      return unless parts && parts[-3]
       parts[-3] = 'l'
-      url = "https://#{@page.uri.host}/#{parts.join('/')}"
+      url = "#{@page.uri.host}/#{parts.join('/')}"
       scrape_image(url, cover: true)
     end
   end
 
   def get_metadata_page
     begin
-      queue_page("https://#{@base_url}/threadmarks")
+      queue_page("#{@base_url}/threadmarks")
     rescue StandardError => e
       if e.to_s.start_with?('404')
         raise ScraperError, "No threadmarks were found for this post. At this time only threads with threadmarks can be converted."
@@ -170,7 +168,7 @@ class ForumScraper < Scraper
   end
 
   def get_author
-    if @page.uri.to_s == "https://#{@base_url}/threadmarks"
+    if @page.uri.to_s == "#{@base_url}/threadmarks"
       ""
     else
       @page.css(@target_data['post']).first.attr("data-author")
@@ -179,7 +177,7 @@ class ForumScraper < Scraper
 
   def get_chapter_urls
     @page.css(@target_data['threadmark_list_item']).map do |t|
-       "https://#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
+       "#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
     end
   end
 

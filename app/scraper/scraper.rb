@@ -96,6 +96,7 @@ class Scraper
   end
 
   def absolute_url(url, reference)
+    byebug
     url = url.split('#')
     unless url[0]&.start_with?('http') || url[0].blank?
       url[0] = "/#{url[0]}" unless url[0].start_with?('/')
