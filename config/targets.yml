@@ -73,7 +73,7 @@ parahumans.wordpress.com:
     image_background: '#fff'
     toc_url: https://parahumans.wordpress.com/table-of-contents/
     title: Worm
-    author: Wildbow
+    author: John Charles McCrae
     cover_image_url: https://parahumans.files.wordpress.com/2012/08/skitter-cover-2-a.jpg?w=1000
     chapter_urls: '#content .entry-content a:not(.sd-button)'
     chapter_content: '.entry-content'
@@ -112,4 +112,20 @@ practicalguidetoevil.wordpress.com:
       - '.wpcnt'
       - '.sharedaddy'
     toc_filters:
+      - '.sharedaddy'
+
+parahumans.net:
+  scraper: 'TOCScraper'
+  data:
+    image_background: '#fff'
+    toc_url: https://www.parahumans.net/table-of-contents/
+    title: Ward
+    author: John Charles McCrae
+    cover_image_url: https://i0.wp.com/www.parahumans.net/wp-content/uploads/2017/10/cropped-Ward-Banner-Proper-1.jpg?resize=1024%2C206&ssl=1
+    chapter_urls: '#main .entry-content a:not(.sd-button)'
+    chapter_content: '.entry-content'
+    chapter_title: '.entry-title'
+    content_filters:
+      - 'a:contains("Next Chapter")'
+      - 'a:contains("Previous Chapter")'
       - '.sharedaddy'
