@@ -1,6 +1,6 @@
 class Target < ApplicationRecord
   has_many :requests, dependent: :nullify
-  validates :domain, presence: true
+  validates :domain, presence: true, uniqueness: true
 
   after_create :touch
   after_create :load_target_data

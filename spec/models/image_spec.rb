@@ -75,8 +75,8 @@ describe Image do
         end
       end
       it "limits width to 1000px while maintaining aspect ratio" do
-        expect(MiniMagick::Image.open(@jpg.path).data['geometry']['width']).to eq('1000')
-        expect(MiniMagick::Image.open(@jpg.path).data['geometry']['height']).to eq('750')
+        expect(MiniMagick::Image.open(@jpg.path).data['geometry']['width']).to eq(1000)
+        expect(MiniMagick::Image.open(@jpg.path).data['geometry']['height']).to eq(750)
       end
       it "compresses file" do
         expect(File.size(@jpg.path)).to be < File.size("#{@jpg.path}.temp")
