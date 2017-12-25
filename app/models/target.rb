@@ -1,5 +1,5 @@
 class Target < ApplicationRecord
-  has_many :requests
+  has_many :requests, dependent: :nullify
   validates :domain, presence: true
 
   after_create :touch
