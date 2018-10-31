@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby "2.3.8"
 
 gem 'colorscore'
 gem 'combine_pdf'
