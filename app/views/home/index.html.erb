@@ -62,6 +62,7 @@
   <% notes.each do |note| %>
     <div class="release-note">
       <%= markdown.render(note.read).html_safe %>
+      <hr>
     </div>
   <% end %>
 </div>
