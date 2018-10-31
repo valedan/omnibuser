@@ -61,7 +61,19 @@ class ForumScraper < Scraper
   def get_chapter_urls_with_dates
     urls = []
     @page.css(@target_data['overlay_threadmark']).each do |t|
-       urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
+      if t.attributes['class'].value.include?('ThreadmarkFetcher')
+        agent.log = Logger.new "mech.log"
+        range = @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
+           'min' => t.attributes['data-range-min'].value,
+           'max' => t.attributes['data-range-max'].value,
+           'thread_id' => t.attributes['data-thread-id'].value
+        )
+        range.css('.threadmarkListItem').each do |rt|
+           urls << [absolute_url(rt.at_css('.PreviewTooltip')['href'], @page.uri), rt.at_css('.DateTime').text.to_date]
+        end
+      else
+        urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
+      end
     end
     urls
   end
