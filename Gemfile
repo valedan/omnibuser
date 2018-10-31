@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
+ruby "2.3.8"
 
-gem 'byebug'
 gem 'colorscore'
 gem 'combine_pdf'
 gem 'redcarpet', '~> 3.3.4'
@@ -51,7 +51,9 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
-
+  gem 'byebug'
+  gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :test do
@@ -75,4 +77,4 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-ruby "2.3.1"
+#ruby "2.3.8"
