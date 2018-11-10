@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'rollbar'
+gem 'resque-rollbar'
+
 gem 'colorscore'
 gem 'combine_pdf'
 gem 'redcarpet', '~> 3.3.4'

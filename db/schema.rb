@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170702121451) do
+ActiveRecord::Schema.define(version: 20181110200218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 20170702121451) do
     t.datetime "updated_at", null: false
     t.string   "aws_key"
     t.index ["story_id"], name: "index_images_on_story_id", using: :btree
+  end
+
+  create_table "proxies", force: :cascade do |t|
+    t.string   "ip"
+    t.string   "port"
+    t.string   "username"
+    t.string   "password"
+    t.integer  "successful_request_count", default: 0
+    t.integer  "failed_request_count",     default: 0
+    t.datetime "last_successful_request"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "requests", force: :cascade do |t|

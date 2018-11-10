@@ -23,9 +23,11 @@ class HomeController < ApplicationController
         format.json {render json: @request, status: :ok}
       rescue ScraperError => e
         @request.update(complete: true, status: e)
+        Rollbar.error(e)
         format.json {render json: @request, status: 422}
       rescue Exception => e
         @request.update(complete: true, status: "Sorry, something went wrong.")
+        Rollbar.error(e)
         format.json {render json: @request, status: 422}
       end
     end
@@ -40,6 +42,7 @@ class HomeController < ApplicationController
         @request = Request.new
         @request.status = e
         @request.complete = true
+        Rollbar.error(e)
         format.json {render json: @request, status: 422}
       end
     end

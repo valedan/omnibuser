@@ -209,12 +209,17 @@ GEM
     resque-pool (0.6.0)
       rake
       resque (~> 1.22)
+    resque-rollbar (0.4.0)
+      resque
+      rollbar (>= 1.4)
     resque-web (0.0.9)
       coffee-rails
       jquery-rails
       resque
       sass-rails
       twitter-bootstrap-rails
+    rollbar (2.18.0)
+      multi_json
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -327,7 +332,9 @@ DEPENDENCIES
   redis
   resque (~> 1.24.1)
   resque-pool
+  resque-rollbar
   resque-web
+  rollbar
   rspec-rails (~> 3.5)
   rubyzip
   sass-rails (~> 5.0)

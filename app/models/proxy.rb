@@ -1,0 +1,2 @@
+class Proxy < ApplicationRecord
+end
