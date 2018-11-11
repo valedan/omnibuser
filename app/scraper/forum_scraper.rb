@@ -6,7 +6,7 @@ class ForumScraper < Scraper
     @page = get_metadata_page
     title = get_story_title
     chapter_urls = get_chapter_urls
-    chapter_urls_with_dates = get_chapter_urls_with_dates
+    chapter_urls_with_dates = get_chapter_urls_with_dates(@page.css(@target_data['overlay_threadmark']))
     @page = queue_page("https://#{@base_url}")
     @story = Story.create(url: @base_url,
                           title: title,
@@ -58,24 +58,42 @@ class ForumScraper < Scraper
     return urls.sort{|a, b| a[1] <=> b[1]}.last(number).map{|x| x[0]}, urls.length - @request.recent_number + 1
   end
 
-  def get_chapter_urls_with_dates
-    urls = []
-    @page.css(@target_data['overlay_threadmark']).each do |t|
+  # def get_chapter_urls_with_dates
+  #   urls = []
+  #   @page.css(@target_data['overlay_threadmark']).each do |t|
+  #     if t.attributes['class'].value.include?('ThreadmarkFetcher')
+  #       get_new_threadmarks(t).css('.threadmarkListItem').each do |rt|
+  #          urls << chapter_url_and_date(rt)
+  #       end
+  #     else
+  #       urls << chapter_url_and_date(t)
+  #     end
+  #   end
+  #   urls
+  # end
+
+  def get_chapter_urls_with_dates(threadmark_targets, urls=[])
+    threadmark_targets.each do |t|
       if t.attributes['class'].value.include?('ThreadmarkFetcher')
-        agent.log = Logger.new "mech.log"
-        range = @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
-           'min' => t.attributes['data-range-min'].value,
-           'max' => t.attributes['data-range-max'].value,
-           'thread_id' => t.attributes['data-thread-id'].value
-        )
-        range.css('.threadmarkListItem').each do |rt|
-           urls << [absolute_url(rt.at_css('.PreviewTooltip')['href'], @page.uri), rt.at_css('.DateTime').text.to_date]
-        end
+        urls.concat(get_chapter_urls_with_dates(get_new_threadmarks(t).css('.threadmarkListItem'), urls))
       else
-        urls << [absolute_url(t.at_css('.PreviewTooltip')['href'], @page.uri), t.at_css('.DateTime').text.to_date]
+        urls << chapter_url_and_date(t)
       end
     end
     urls
+  end
+
+  def get_new_threadmarks(threadmark_fetcher)
+    @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
+      'min' => threadmark_fetcher.attributes['data-range-min'].value,
+      'max' => threadmark_fetcher.attributes['data-range-max'].value,
+      'thread_id' => threadmark_fetcher.attributes['data-thread-id'].value
+   )
+  end
+
+  def chapter_url_and_date(threadmark)
+    [absolute_url(threadmark.at_css('.PreviewTooltip')['href'], @page.uri),
+     threadmark.at_css('.DateTime').text.to_date]
   end
 
   def get_reader_chapters(index=1)
