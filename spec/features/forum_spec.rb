@@ -30,6 +30,7 @@ feature "Sufficient Velocity", js: true do
   let(:single_chapter) {'https://forums.sufficientvelocity.com/threads/archive-of-random-snips.32557/'}
   let(:unthreadmarked_op) {'https://forums.sufficientvelocity.com/threads/erlk%C3%B6nig-worm-au.33429/'}
   let(:large_images) {'https://forums.sufficientvelocity.com/threads/a-daughters-dedication-kancolle.33211/'}
+  let(:many_threadmarks) {'https://forums.sufficientvelocity.com/threads/mauling-snarks-worm.41471/'}
 
   before :each do
     visit root_path
@@ -53,6 +54,10 @@ feature "Sufficient Velocity", js: true do
   end
   scenario "Scraping a story with no threadmark for first post" do
     get_story unthreadmarked_op, extension: 'epub'
+    expect(page).to have_content('Download')
+  end
+  scenario "Scraping a story with many threadmarks" do
+    get_story many_threadmarks, extension: 'html'
     expect(page).to have_content('Download')
   end
 end

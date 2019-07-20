@@ -6,6 +6,7 @@ class ForumScraper < Scraper
     @page = get_metadata_page
     title = get_story_title
     chapter_urls = get_chapter_urls
+    
     chapter_urls_with_dates = get_chapter_urls_with_dates(@page.css(@target_data['overlay_threadmark']))
     @page = queue_page("https://#{@base_url}")
     @story = Story.create(url: @base_url,
@@ -44,9 +45,9 @@ class ForumScraper < Scraper
       post_id = chunks[1] if chunks[1]
       @page = queue_page(url)
       if post_id
-        node = @page.at_css("##{post_id}")
+        node = (@page.at_css("#js-#{post_id}") || @page.at_css("##{post_id}"))
       else
-        node = @page.at_css(@target_data['threadmark'])
+        node = threadmark_nodes.first
       end
       create_chapter(node, offset)
       offset += 1
@@ -58,23 +59,10 @@ class ForumScraper < Scraper
     return urls.sort{|a, b| a[1] <=> b[1]}.last(number).map{|x| x[0]}, urls.length - @request.recent_number + 1
   end
 
-  # def get_chapter_urls_with_dates
-  #   urls = []
-  #   @page.css(@target_data['overlay_threadmark']).each do |t|
-  #     if t.attributes['class'].value.include?('ThreadmarkFetcher')
-  #       get_new_threadmarks(t).css('.threadmarkListItem').each do |rt|
-  #          urls << chapter_url_and_date(rt)
-  #       end
-  #     else
-  #       urls << chapter_url_and_date(t)
-  #     end
-  #   end
-  #   urls
-  # end
-
   def get_chapter_urls_with_dates(threadmark_targets, urls=[])
     threadmark_targets.each do |t|
-      if t.attributes['class'].value.include?('ThreadmarkFetcher')
+      if t.attributes['class'].value.include?('ThreadmarkFetcher') ||
+         t.attributes['class'].value.include?('structItem--threadmark-filler')
         urls.concat(get_chapter_urls_with_dates(get_new_threadmarks(t).css('.threadmarkListItem'), urls))
       else
         urls << chapter_url_and_date(t)
@@ -92,12 +80,16 @@ class ForumScraper < Scraper
   end
 
   def chapter_url_and_date(threadmark)
-    [absolute_url(threadmark.at_css('.PreviewTooltip')['href'], @page.uri),
-     threadmark.at_css('.DateTime').text.to_date]
+    [absolute_url(threadmark.at_css(@target_data['threadmark_url'])['href'], @page.uri),
+     threadmark.at_css(@target_data['threadmark_date']).text.to_date]
+  end
+
+  def threadmark_nodes
+    @page.css(@target_data['threadmark']).map{|node| story.domain == "sv" ? node.parent : node}
   end
 
   def get_reader_chapters(index=1)
-    @page.css(@target_data['threadmark']).each do |chapter|
+    threadmark_nodes.each do |chapter|
       create_chapter(chapter, index)
       index += 1
       @request.increment!(:current_chapters)
@@ -148,7 +140,7 @@ class ForumScraper < Scraper
     @index = 1
     chapter_urls.each do |url|
       @page = queue_page(url)
-      @page.css(@target_data['threadmark']).each do |chapter|
+      threadmark_nodes.each do |chapter|
         create_chapter(chapter, @index)
         @index += 1
         @request.increment!(:current_chapters)
@@ -176,6 +168,7 @@ class ForumScraper < Scraper
 
   def get_cover_image
     unless @page.uri.to_s == "https://#{@base_url}/threadmarks"
+      return unless @page.at_css(@target_data['avatar'])
       parts = @page.at_css(@target_data['avatar'])['src'].split('/')
       return unless parts[-3]
       parts[-3] = 'l'
@@ -196,7 +189,7 @@ class ForumScraper < Scraper
   end
 
   def get_story_title
-    @page.at_css(".titleBar h1").text.split("Threadmarks for:")[1].strip
+    (@page.at_css(".titleBar h1") || @page.at_css(".p-title-value")).text.gsub(/( - Threadmarks|Threadmarks for: )/, '').strip
   end
 
   def get_author
@@ -214,7 +207,7 @@ class ForumScraper < Scraper
   end
 
   def get_chapter_title(chapter)
-    chapter.at_css(".threadmarker .label").text.split(@target_data['chapter_threadmark_text'])[1].strip
+    chapter.at_css(@target_data['chapter_threadmark_text']).text.gsub(@target_data['chapter_threadmark_fluff'], '').strip
   end
 
   def get_chapter_content(chapter)
