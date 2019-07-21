@@ -33,10 +33,12 @@ class Chapter < ApplicationRecord
     nodeset.search('.JsOnly').each{|js| js.remove}
     nodeset.search('noscript').each{|n| n.replace Nokogiri::XML.fragment(n.children)}
     nodeset.css('iframe').each do |iframe|
-      url = iframe['src'].sub(/^\/\//, '')
-      url = "http://#{url}" unless url.start_with?('http')
-      new_node = nodeset.create_element "a", "#{url}", href: "#{url}"
-      iframe.replace new_node
+      url = iframe['src']&.sub(/^\/\//, '')
+      if url
+        url = "http://#{url}" unless url.start_with?('http')
+        new_node = nodeset.create_element "a", "#{url}", href: "#{url}"
+        iframe.replace new_node
+      end
     end
     nodeset.search('img').each{|i| i.remove if i['src'].nil?}
     nodeset.search('span').each do |span|

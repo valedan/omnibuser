@@ -80,8 +80,13 @@ class ForumScraper < Scraper
   end
 
   def chapter_url_and_date(threadmark)
-    [absolute_url(threadmark.at_css(@target_data['threadmark_url'])['href'], @page.uri),
-     threadmark.at_css(@target_data['threadmark_date']).text.to_date]
+    begin
+      date = threadmark.at_css(@target_data['threadmark_date']).text.to_date
+    rescue ArgumentError
+      date = Time.now.to_date
+    end
+    
+    [absolute_url(threadmark.at_css(@target_data['threadmark_url'])['href'], @page.uri), date]
   end
 
   def threadmark_nodes
