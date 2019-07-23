@@ -5,9 +5,9 @@ class ForumScraper < Scraper
     @target_data = @target.target_data
     @page = get_metadata_page
     title = get_story_title
-    chapter_urls = get_chapter_urls
     
     chapter_urls_with_dates = get_chapter_urls_with_dates(@page.css(@target_data['overlay_threadmark']))
+    chapter_urls = chapter_urls_with_dates.map(&:first).map{|url| url.split('#')[0]}
     @page = queue_page("https://#{@base_url}")
     @story = Story.create(url: @base_url,
                           title: title,
@@ -63,7 +63,7 @@ class ForumScraper < Scraper
     threadmark_targets.each do |t|
       if t.attributes['class'].value.include?('ThreadmarkFetcher') ||
          t.attributes['class'].value.include?('structItem--threadmark-filler')
-        urls.concat(get_chapter_urls_with_dates(get_new_threadmarks(t).css('.threadmarkListItem'), urls))
+        urls.concat(get_chapter_urls_with_dates(get_new_threadmarks(t).css(@target_data['threadmark_list_item']), urls))
       else
         urls << chapter_url_and_date(t)
       end
@@ -72,17 +72,21 @@ class ForumScraper < Scraper
   end
 
   def get_new_threadmarks(threadmark_fetcher)
-    @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
-      'min' => threadmark_fetcher.attributes['data-range-min'].value,
-      'max' => threadmark_fetcher.attributes['data-range-max'].value,
-      'thread_id' => threadmark_fetcher.attributes['data-thread-id'].value
-   )
+    if target.domain.include?("sufficientvelocity")
+      @agent.get("https://#{@target.domain}#{threadmark_fetcher.at_css('div').attributes['data-fetchurl'].value}")
+    else
+      @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
+        'min' => threadmark_fetcher.attributes['data-range-min'].value,
+        'max' => threadmark_fetcher.attributes['data-range-max'].value,
+        'thread_id' => threadmark_fetcher.attributes['data-thread-id'].value
+        )
+      end
   end
 
   def chapter_url_and_date(threadmark)
     begin
       date = threadmark.at_css(@target_data['threadmark_date']).text.to_date
-    rescue ArgumentError
+    rescue StandardError
       date = Time.now.to_date
     end
     
@@ -206,7 +210,7 @@ class ForumScraper < Scraper
   end
 
   def get_chapter_urls
-    @page.css(@target_data['threadmark_list_item']).map do |t|
+    @page.css("#{@target_data['threadmark_list_item']} a").map do |t|
        "https://#{@base_url.to_s.split('threads/')[0]}#{t.attr('href')}".sub(/#post-\d+/, '')
     end
   end

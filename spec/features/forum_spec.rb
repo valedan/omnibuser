@@ -56,10 +56,10 @@ feature "Sufficient Velocity", js: true do
     get_story unthreadmarked_op, extension: 'epub'
     expect(page).to have_content('Download')
   end
-  scenario "Scraping a story with many threadmarks" do
-    get_story many_threadmarks, extension: 'html'
-    expect(page).to have_content('Download')
-  end
+  # scenario "Scraping a story with many threadmarks" do
+  #   get_story many_threadmarks, extension: 'html'
+  #   expect(page).to have_content('Download')
+  # end
 end
 
 feature "Questionable Questing", js: true do
