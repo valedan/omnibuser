@@ -44,7 +44,7 @@ class Scraper
     @proxies.shuffle!
     proxy_index = 0
     begin
-      if self.class == FFNScraper && @proxies.length > 0
+      if true || self.class == FFNScraper && @proxies.length > 0
         proxy = @proxies[proxy_index]
         @agent.set_proxy(proxy.ip, proxy.port, proxy.username, proxy.password)
         @agent.user_agent = USER_AGENTS.sample
@@ -55,19 +55,19 @@ class Scraper
         @agent.get(url)
       end
     rescue Exception => e
-      if self.class == FFNScraper && @proxies.length > 0
+      if true || self.class == FFNScraper && @proxies.length > 0
         proxy = @proxies[proxy_index]
         proxy.increment!(:failed_request_count)
         proxy_index += 1
       end
       tries -= 1
       if tries > 0
-        if self.class == FFNScraper && @proxies.length > 0
+        if true || self.class == FFNScraper && @proxies.length > 0
           Rollbar.warning(e, "FFN connection failure for proxy #{proxy.ip}")
         end
         retry
       else
-        if self.class == FFNScraper && @proxies.length > 0
+        if true || self.class == FFNScraper && @proxies.length > 0
           raise ProxiesExhausted.new("Could not connect to #{request.url}")
         else
           raise e
