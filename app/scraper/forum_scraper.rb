@@ -72,7 +72,7 @@ class ForumScraper < Scraper
   end
 
   def get_new_threadmarks(threadmark_fetcher)
-    if target.domain.include?("sufficientvelocity")
+    if target.domain.include?("sufficientvelocity") || target.domain.include?("spacebattles")
       @agent.get("https://#{@target.domain}#{threadmark_fetcher.at_css('div').attributes['data-fetchurl'].value}")
     else
       @agent.post("https://#{@target.domain}/index.php?threads/threadmarks/load-range",
@@ -94,7 +94,7 @@ class ForumScraper < Scraper
   end
 
   def threadmark_nodes
-    @page.css(@target_data['threadmark']).map{|node| story.domain == "sv" ? node.parent : node}
+    @page.css(@target_data['threadmark']).map{|node| ["sv", "sb"].include?(story.domain) ? node.parent : node}
   end
 
   def get_reader_chapters(index=1)
